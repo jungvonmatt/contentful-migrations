@@ -28,10 +28,8 @@ program
   .action(async (cmd) => {
     const config = await getConfig(parseArgs(cmd));
     const verified = await askAll(config);
-    const { managementToken, accessToken, ...rest } = verified;
+    const { managementToken, accessToken, environment, ...rest } = verified;
 
-    console.log('DATA');
-    console.log(rest);
     // try to store in package.json
     const localPkg = await pkgUp();
     if (localPkg) {
@@ -53,8 +51,7 @@ program
   .action(async (cmd) => {
     const config = await getConfig(parseArgs(cmd));
     const verified = await askMissing(config);
-    console.log(verified);
-    /** run createMigration from index */
+    await createMigration(verified);
   });
 
 program
@@ -65,9 +62,7 @@ program
   .action(async (cmd) => {
     const config = await getConfig(parseArgs(cmd));
     const verified = await askMissing(config);
-    console.log(verified);
-
-    /** run runMigrations from index */
+    await runMigrations(verified);
   });
 
 program.parse(process.argv);
