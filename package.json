@@ -67,12 +67,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write --ignore-path .gitignore",
-      "eslint --fix --ignore-path .gitignore",
-      "git add"
+      "eslint --fix --ignore-path .gitignore"
     ],
     "*.md": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "husky": {
