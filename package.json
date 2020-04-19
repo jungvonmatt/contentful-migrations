@@ -1,5 +1,5 @@
 {
-  "name": "@jvm/contentful-migrations",
+  "name": "@jungvonmatt/contentful-migrations",
   "version": "1.0.0",
   "description": "Helper to handle migrations in contentful",
   "main": "index.js",
@@ -11,6 +11,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .  --ext .js,.ts,.tsx --ignore-path .gitignore"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jungvonmatt/contentful-migrations.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "author": "Ben Zörb <benjamin.zoerb@jvm.de>",
   "license": "MIT",
@@ -77,11 +84,5 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "migrations": {
-    "spaceId": "gpdredy5px7h",
-    "contentTypeId": "config",
-    "fieldId": "migration",
-    "directory": "migrations"
   }
 }
