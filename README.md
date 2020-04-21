@@ -27,10 +27,14 @@ npm i @jungvonmatt/contentful-migrations
 
 ### help
 
+```bash
+npx migrations help [command]
+```
+
 ### init
 
 ```bash
-npx @jungvonmatt/contentful-migrations init
+npx migrations init
 ```
 
 Initializes migrations and stores the config values in the `package.json` or the `.migrationsrc` file.
@@ -52,15 +56,15 @@ Generate an empty migration script.
 This command will also add an initial migration to add the contentType and the field if they not already exist
 
 ```bash
-npx @jungvonmatt/contentful-migrations generate
+npx migrations generate
 ```
 
 ### migrate
 
-Runs all "new" migrations on the current environment
+Runs all "new" migrations on the current environment or the environment specified by the `-e` param
 
 ```bash
-npx @jungvonmatt/contentful-migrations migrate
+npx migrations migrate
 ```
 
 ## Can I contribute?

@@ -57,7 +57,7 @@ program
 program
   .command('migrate')
   .option('-e, --env <environment>', 'change the contentful environment')
-  .option('-p, --path <path/to/migrations>', 'change the path where the migrations are saved')
+  .option('-p, --path <path/to/migrations>', 'change the path where the migrations are stored')
   .description('Execute all unexecuted migrations available.')
   .action(async (cmd) => {
     const config = await getConfig(parseArgs(cmd));
