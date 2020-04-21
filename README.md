@@ -41,14 +41,14 @@ Initializes migrations and stores the config values in the `package.json` or the
 
 #### Configuration values
 
-| Name          | Default        | Description                                                                                                                |
-| ------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| accessToken   | `undefined`    | Contentful Management Token. Just run `npx contentful login` and you're done.                                              |
-| spaceId       | `undefined`    | Contentful Space id                                                                                                        |
-| environment   | Git Branch     | Contentful Space environment. Leave empty to always run migrations on the environment which matches the current Git Branch |
-| contentTypeId | 'config'       | Id of a content model holding global config values (Required for storing the migration version)                            |
-| fieldId       | 'migration'    | Id of the field where the migration version is stored                                                                      |
-| directory     | './migrations' | Directory where the migration files are stored                                                                             |
+| Name               | Default        | Description                                                                                                                                 |
+| ------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| accessToken        | `undefined`    | Contentful Management Token. Just run `npx contentful login` and you're done.                                                               |
+| spaceId            | `undefined`    | Contentful Space id                                                                                                                         |
+| defaultEnvironment | 'master'       | Contentful Space environment. Acts as default if there is no environment named after the current git branch or the passed env doesn't exist |
+| contentTypeId      | 'config'       | Id of a content model holding global config values (Required for storing the migration version)                                             |
+| fieldId            | 'migration'    | Id of the field where the migration version is stored                                                                                       |
+| directory          | './migrations' | Directory where the migration files are stored                                                                                              |
 
 ### generate
 
