@@ -2,7 +2,14 @@
 
 ## Getting started
 
-### Prerequisites
+
+### Install
+
+```bash
+npm i @jungvonmatt/contentful-migrations
+```
+
+#### Prerequisites
 
 This package is hosted in the github registry.
 This means you need to [configure npm for use with GitHub Packages](https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-npm-for-use-with-github-packages)
@@ -17,13 +24,7 @@ registry=https://registry.npmjs.org/
 @jungvonmatt:registry=https://npm.pkg.github.com/
 ```
 
-### Install
-
-```bash
-npm i @jungvonmatt/contentful-migrations
-```
-
-### Usage with github actions
+#### Usage with github actions
 
 There are two steps required to use this package with github actions:
 1. [Create a TOKEN](https://github.com/settings/tokens) and add it as secret to the project (repo/packages read/write access) because the default GITHUB_TOKEN [can't install packages from private repositories](https://help.github.com/pt/packages/using-github-packages-with-your-projects-ecosystem/using-github-packages-with-github-actions#installing-a-package-using-an-action)
@@ -50,6 +51,7 @@ The yaml file should look something like this:
       
    ...
 ```
+
 
 ## Commands
 
