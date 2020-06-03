@@ -2,7 +2,6 @@
 
 ## Getting started
 
-
 ### Install
 
 ```bash
@@ -27,6 +26,7 @@ registry=https://registry.npmjs.org/
 #### Usage with github actions
 
 There are two steps required to use this package with github actions:
+
 1. [Create a TOKEN](https://github.com/settings/tokens) and add it as secret to the project (repo/packages read/write access) because the default GITHUB_TOKEN [can't install packages from private repositories](https://help.github.com/pt/packages/using-github-packages-with-your-projects-ecosystem/using-github-packages-with-github-actions#installing-a-package-using-an-action)
 2. Add the github registry url to the `actions/setup-node@v1` configuration and the generated token to the install command.
 
@@ -34,7 +34,7 @@ The yaml file should look something like this:
 
 ```
   ...
-  
+
   - name: Clone repository
     uses: actions/checkout@v1
   - name: Use Node.js
@@ -48,10 +48,9 @@ The yaml file should look something like this:
     run: npm ci
     env:
       NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
-      
+
    ...
 ```
-
 
 ## Commands
 
@@ -87,6 +86,15 @@ This command will also add an initial migration to add the contentType and the f
 
 ```bash
 npx migrations generate
+```
+
+### fetch
+
+Generate a migration script based on passed content-type.
+This command will also add an initial migration to add the contentType and the field if they not already exist
+
+```bash
+npx migrations fetch -c <my-content-type>
 ```
 
 ### migrate

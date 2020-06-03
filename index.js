@@ -5,7 +5,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const pkgUp = require('pkg-up');
-const { createMigration, runMigrations } = require('./lib/migration');
+const { createMigration, runMigrations, fetchMigration } = require('./lib/migration');
 const { getConfig, askAll, askMissing } = require('./lib/config');
 const pkg = require('./package.json');
 
@@ -13,7 +13,6 @@ require('dotenv').config();
 
 const parseArgs = (cmd) => {
   const directory = cmd.path || cmd.parent.path;
-
   return {
     environment: cmd.env || cmd.parent.env,
     directory: directory ? path.resolve(directory) : undefined,
@@ -41,6 +40,18 @@ program
       // store in .migrationsrc if no package.json is available
       await fs.outputJson(path.join(process.cwd(), '.migrationsrc'), rest, { spaces: 2 });
     }
+  });
+
+program
+  .command('fetch')
+  .requiredOption('-c, --content-type <content-type>', 'specify content-type')
+  .option('-e, --env <environment>', 'change the contentful environment')
+  .option('-p, --path <path/to/migrations>', 'change the path where the migrations are saved')
+  .description('Generated new contentful migration')
+  .action(async (cmd) => {
+    const config = await getConfig(parseArgs(cmd));
+    const verified = await askMissing(config);
+    await fetchMigration({ ...verified, contentType: cmd.contentType });
   });
 
 program
