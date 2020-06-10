@@ -46,9 +46,9 @@ program
 
 program
   .command('fetch')
-  .requiredOption('-c, --content-type <content-type>', 'specify content-type')
-  .option('-e, --env <environment>', 'change the contentful environment')
-  .option('-p, --path <path/to/migrations>', 'change the path where the migrations are saved')
+  .requiredOption('-c, --content-type <content-type>', 'Specify content-type')
+  .option('-e, --env <environment>', 'Change the contentful environment')
+  .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .description('Generated new contentful migration')
   .action(async (cmd) => {
     const config = await getConfig(parseArgs(cmd));
@@ -58,8 +58,8 @@ program
 
 program
   .command('generate')
-  .option('-e, --env <environment>', 'change the contentful environment')
-  .option('-p, --path <path/to/migrations>', 'change the path where the migrations are saved')
+  .option('-e, --env <environment>', 'Change the contentful environment')
+  .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .description('Generated new contentful migration')
   .action(async (cmd) => {
     const config = await getConfig(parseArgs(cmd));
@@ -69,8 +69,8 @@ program
 
 program
   .command('migrate')
-  .option('-e, --env <environment>', 'change the contentful environment')
-  .option('-p, --path <path/to/migrations>', 'change the path where the migrations are stored')
+  .option('-e, --env <environment>', 'Change the contentful environment')
+  .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are stored')
   .description('Execute all unexecuted migrations available.')
   .action(async (cmd) => {
     const config = await getConfig(parseArgs(cmd));
@@ -80,15 +80,22 @@ program
 
 program
   .command('content')
-  .requiredOption('-s, --source-env <environment>', 'set the contentful source environment')
-  .requiredOption('-d, --dest-env <environment>', 'set the contentful destination environment')
-  .option('-c, --content-type <content-type>', 'specify content-type')
-  .description('Transfer content from one environment to another')
+  .requiredOption('-s, --source-env <environment>', 'Set the contentful source environment')
+  .requiredOption('-d, --dest-env <environment>', 'Set the contentful destination environment')
+  .option('-c, --content-type <content-type>', 'Specify content-type')
+  .option('--diff', 'Manually choose skip/overwrite for every conflict')
+  .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
+  .description('Transfer content from one environment to another environment')
   .action(async (cmd) => {
     const config = await getConfig(parseArgs(cmd));
     const verified = await askMissing(config);
     // run migrations on destination environment
-    await transferContent({ ...verified, contentType: cmd.contentType || '' });
+    await transferContent({
+      ...verified,
+      contentType: cmd.contentType || '',
+      forceOverwrite: cmd.force || false,
+      diffConflicts: cmd.diff || false,
+    });
   });
 
 program.parse(process.argv);
