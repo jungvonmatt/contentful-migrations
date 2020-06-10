@@ -110,15 +110,15 @@ npx migrations migrate
 Transfer content from one contentful environment to another.<br/>
 This command will not overwrite existing content unless you say so.
 
+```bash
+npx migrations content --source-env <environment>  --dest-env <environment>
+```
+
 ##### Optional Arguments
 
 `--content-type`: Limit to specific content-type and it's dependencies.<br/>
 `--diff`: Manually choose skip/overwrite for every conflicting content.<br/>
 `--force`: No manual diffing. Overwrites all conflicting entries/assets.
-
-```bash
-npx migrations content --source-env <environment>  --dest-env <environment>
-```
 
 ## Can I contribute?
 
