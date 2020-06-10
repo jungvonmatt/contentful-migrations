@@ -112,11 +112,12 @@ This command will not overwrite existing content unless you say so.
 
 ##### Optional Arguments
 
+`--content-type`: Limit to specific content-type and it's dependencies
 `--diff`: Manually choose skip/overwrite for every conflicting content.<br/>
 `--force`: No manual diffing. Overwrites all conflicting entries/assets.
 
 ```bash
-npx migrations content --source-env <environment>  --dest-env <environment>  --content-type <content-type>
+npx migrations content --source-env <environment>  --dest-env <environment>
 ```
 
 ## Can I contribute?
