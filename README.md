@@ -82,7 +82,7 @@ Initializes migrations and stores the config values in the `package.json` or the
 ### generate
 
 Generate an empty migration script.
-This command will also add an initial migration to add the contentType and the field if they not already exist
+This command will also add an initial migration to add the contentType and the field if they not already exist.
 
 ```bash
 npx migrations generate
@@ -91,7 +91,7 @@ npx migrations generate
 ### fetch
 
 Generate a migration script based on passed content-type.
-This command will also add an initial migration to add the contentType and the field if they not already exist
+This command will also add an initial migration to add the contentType and the field if they not already exist.
 
 ```bash
 npx migrations fetch -c <my-content-type>
@@ -107,7 +107,13 @@ npx migrations migrate
 
 ### content
 
-Transfer content from one contentful environment to another
+Transfer content from one contentful environment to another.<br/>
+This command will not overwrite existing content unless you say so.
+
+##### Optional Arguments
+
+`--diff`: Manually choose skip/overwrite for every conflicting content.<br/>
+`--force`: No manual diffing. Overwrites all conflicting entries/assets.
 
 ```bash
 npx migrations content --source-env <environment>  --dest-env <environment>  --content-type <content-type>
