@@ -105,6 +105,14 @@ Runs all "new" migrations on the current environment or the environment specifie
 npx migrations migrate
 ```
 
+### content
+
+Transfer content from one contentful environment to another
+
+```bash
+npx migrations content --source-env <environment>  --dest-env <environment>  --content-type <content-type>
+```
+
 ## Can I contribute?
 
 Of course. We appreciate all of our [contributors](https://github.com/jungvonmatt/contentful-migrations/graphs/contributors) and

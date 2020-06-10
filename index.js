@@ -5,7 +5,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const pkgUp = require('pkg-up');
-const { createMigration, runMigrations, fetchMigration } = require('./lib/migration');
+const { createMigration, runMigrations, fetchMigration, transferContent } = require('./lib/migration');
 const { getConfig, askAll, askMissing } = require('./lib/config');
 const pkg = require('./package.json');
 
@@ -16,6 +16,8 @@ const parseArgs = (cmd) => {
   return {
     environment: cmd.env || cmd.parent.env,
     directory: directory ? path.resolve(directory) : undefined,
+    sourceEnvironment: cmd.sourceEnv || cmd.parent.sourceEnv,
+    destEnvironment: cmd.destEnv || cmd.parent.destEnv,
   };
 };
 
@@ -74,6 +76,19 @@ program
     const config = await getConfig(parseArgs(cmd));
     const verified = await askMissing(config);
     await runMigrations(verified);
+  });
+
+program
+  .command('content')
+  .requiredOption('-s, --source-env <environment>', 'set the contentful source environment')
+  .requiredOption('-d, --dest-env <environment>', 'set the contentful destination environment')
+  .option('-c, --content-type <content-type>', 'specify content-type')
+  .description('Transfer content from one environment to another')
+  .action(async (cmd) => {
+    const config = await getConfig(parseArgs(cmd));
+    const verified = await askMissing(config);
+    // run migrations on destination environment
+    await transferContent({ ...verified, contentType: cmd.contentType || '' });
   });
 
 program.parse(process.argv);
