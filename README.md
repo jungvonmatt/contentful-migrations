@@ -120,6 +120,8 @@ npx migrations content --source-env <environment>  --dest-env <environment>
 `--diff`: Manually choose skip/overwrite for every conflicting content.<br/>
 `--force`: No manual diffing. Overwrites all conflicting entries/assets.
 
+![Diff example](https://raw.githubusercontent.com/jungvonmatt/contentful-migrations/master/diff.jpg)
+
 ## Can I contribute?
 
 Of course. We appreciate all of our [contributors](https://github.com/jungvonmatt/contentful-migrations/graphs/contributors) and
