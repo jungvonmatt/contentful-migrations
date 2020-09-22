@@ -59,6 +59,9 @@
     "lint-staged": "^10.2.9",
     "prettier": "^2.0.5"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "prettier": {
     "singleQuote": true,
     "printWidth": 120
