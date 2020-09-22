@@ -19,9 +19,6 @@
     "type": "git",
     "url": "git+https://github.com/jungvonmatt/contentful-migrations.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "author": "Ben Zörb <benjamin.zoerb@jvm.de>",
   "license": "MIT",
   "engines": {

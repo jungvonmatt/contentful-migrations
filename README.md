@@ -8,50 +8,6 @@
 npm i @jungvonmatt/contentful-migrations
 ```
 
-#### Prerequisites
-
-This package is hosted in the github registry.
-This means you need to [configure npm for use with GitHub Packages](https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-npm-for-use-with-github-packages)
-
-The global _.npmrc_ file should something look like this:
-
-```
-//registry.npmjs.org/:_authToken=GITHUB_TOKEN
-//npm.pkg.github.com/:_authToken=NPM_TOKEN
-
-registry=https://registry.npmjs.org/
-@jungvonmatt:registry=https://npm.pkg.github.com/
-```
-
-#### Usage with github actions
-
-There are two steps required to use this package with github actions:
-
-1. [Create a TOKEN](https://github.com/settings/tokens) and add it as secret to the project (repo/packages read/write access) because the default GITHUB_TOKEN [can't install packages from private repositories](https://help.github.com/pt/packages/using-github-packages-with-your-projects-ecosystem/using-github-packages-with-github-actions#installing-a-package-using-an-action)
-2. Add the github registry url to the `actions/setup-node@v1` configuration and the generated token to the install command.
-
-The yaml file should look something like this:
-
-```
-  ...
-
-  - name: Clone repository
-    uses: actions/checkout@v1
-  - name: Use Node.js
-    uses: actions/setup-node@v1
-    with:
-      node-version: '10'
-      always-auth: true
-      registry-url: https://npm.pkg.github.com
-      scope: '@jungvonmatt'
-  - name: Install npm dependencies
-    run: npm ci
-    env:
-      NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
-
-   ...
-```
-
 ## Commands
 
 ### help
