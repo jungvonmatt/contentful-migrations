@@ -5,6 +5,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const pkgUp = require('pkg-up');
+const chalk = require('chalk');
 const { createMigration, runMigrations, fetchMigration, transferContent } = require('./lib/migration');
 const { getConfig, askAll, askMissing } = require('./lib/config');
 const pkg = require('./package.json');
@@ -21,17 +22,20 @@ const parseArgs = (cmd) => {
   };
 };
 
-const errorHandler = (error) => {
-  // const { errors, message } = error;
-  // console.error(message);
-  // (errors || []).forEach((error) => {
-  //   console.error(error.message);
-  // });
+const errorHandler = (error, log) => {
+  if (log) {
+    const { errors, message } = error;
+
+    console.error(chalk.red('\nError:'), message);
+    (errors || []).forEach((error) => {
+      console.error(chalk.red('Error:'), error.message);
+    });
+  }
   process.exit(1);
 };
 
-const actionRunner = (fn) => {
-  return (...args) => fn(...args).catch(errorHandler);
+const actionRunner = (fn, log = true) => {
+  return (...args) => fn(...args).catch((error) => errorHandler(error, log));
 };
 
 const program = require('commander');
@@ -96,7 +100,7 @@ program
       const config = await getConfig(parseArgs(cmd));
       const verified = await askMissing(config);
       await runMigrations(verified);
-    })
+    }, false)
   );
 
 program
