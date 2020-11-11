@@ -21,28 +21,43 @@ const parseArgs = (cmd) => {
   };
 };
 
+const errorHandler = (error) => {
+  // const { errors, message } = error;
+  // console.error(message);
+  // (errors || []).forEach((error) => {
+  //   console.error(error.message);
+  // });
+  process.exit(1);
+};
+
+const actionRunner = (fn) => {
+  return (...args) => fn(...args).catch(errorHandler);
+};
+
 const program = require('commander');
 program.version(pkg.version);
 program
   .command('init')
   .description('Initialize contentful-migrations')
-  .action(async (cmd) => {
-    const config = await getConfig(parseArgs(cmd));
-    const verified = await askAll(config);
-    const { managementToken, accessToken, environment, ...rest } = verified;
+  .action(
+    actionRunner(async (cmd) => {
+      const config = await getConfig(parseArgs(cmd));
+      const verified = await askAll(config);
+      const { managementToken, accessToken, environment, ...rest } = verified;
 
-    // try to store in package.json
-    const localPkg = await pkgUp();
-    if (localPkg) {
-      const packageJson = await fs.readJson(localPkg);
-      rest.directory = path.relative(path.dirname(localPkg), rest.directory);
-      packageJson.migrations = rest;
-      await fs.outputJson(localPkg, packageJson, { spaces: 2 });
-    } else {
-      // store in .migrationsrc if no package.json is available
-      await fs.outputJson(path.join(process.cwd(), '.migrationsrc'), rest, { spaces: 2 });
-    }
-  });
+      // try to store in package.json
+      const localPkg = await pkgUp();
+      if (localPkg) {
+        const packageJson = await fs.readJson(localPkg);
+        rest.directory = path.relative(path.dirname(localPkg), rest.directory);
+        packageJson.migrations = rest;
+        await fs.outputJson(localPkg, packageJson, { spaces: 2 });
+      } else {
+        // store in .migrationsrc if no package.json is available
+        await fs.outputJson(path.join(process.cwd(), '.migrationsrc'), rest, { spaces: 2 });
+      }
+    })
+  );
 
 program
   .command('fetch')
@@ -50,33 +65,39 @@ program
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .description('Generated new contentful migration')
-  .action(async (cmd) => {
-    const config = await getConfig(parseArgs(cmd));
-    const verified = await askMissing(config);
-    await fetchMigration({ ...verified, contentType: cmd.contentType });
-  });
+  .action(
+    actionRunner(async (cmd) => {
+      const config = await getConfig(parseArgs(cmd));
+      const verified = await askMissing(config);
+      await fetchMigration({ ...verified, contentType: cmd.contentType });
+    })
+  );
 
 program
   .command('generate')
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .description('Generated new contentful migration')
-  .action(async (cmd) => {
-    const config = await getConfig(parseArgs(cmd));
-    const verified = await askMissing(config);
-    await createMigration(verified);
-  });
+  .action(
+    actionRunner(async (cmd) => {
+      const config = await getConfig(parseArgs(cmd));
+      const verified = await askMissing(config);
+      await createMigration(verified);
+    })
+  );
 
 program
   .command('migrate')
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are stored')
   .description('Execute all unexecuted migrations available.')
-  .action(async (cmd) => {
-    const config = await getConfig(parseArgs(cmd));
-    const verified = await askMissing(config);
-    await runMigrations(verified);
-  });
+  .action(
+    actionRunner(async (cmd) => {
+      const config = await getConfig(parseArgs(cmd));
+      const verified = await askMissing(config);
+      await runMigrations(verified);
+    })
+  );
 
 program
   .command('content')
@@ -86,16 +107,18 @@ program
   .option('--diff', 'Manually choose skip/overwrite for every conflict')
   .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
   .description('Transfer content from one environment to another environment')
-  .action(async (cmd) => {
-    const config = await getConfig(parseArgs(cmd));
-    const verified = await askMissing(config);
-    // run migrations on destination environment
-    await transferContent({
-      ...verified,
-      contentType: cmd.contentType || '',
-      forceOverwrite: cmd.force || false,
-      diffConflicts: cmd.diff || false,
-    });
-  });
+  .action(
+    actionRunner(async (cmd) => {
+      const config = await getConfig(parseArgs(cmd));
+      const verified = await askMissing(config);
+      // run migrations on destination environment
+      await transferContent({
+        ...verified,
+        contentType: cmd.contentType || '',
+        forceOverwrite: cmd.force || false,
+        diffConflicts: cmd.diff || false,
+      });
+    })
+  );
 
 program.parse(process.argv);
