@@ -74,7 +74,8 @@ npx migrations content --source-env <environment>  --dest-env <environment>
 
 `--content-type`: Limit to specific content-type and it's dependencies.<br/>
 `--diff`: Manually choose skip/overwrite for every conflicting content.<br/>
-`--force`: No manual diffing. Overwrites all conflicting entries/assets.
+`--force`: No manual diffing. Overwrites all conflicting entries/assets.<br/>
+`--verbose`: Show tree of entries/assets which should be migrated.
 
 ![Diff example](https://raw.githubusercontent.com/jungvonmatt/contentful-migrations/master/diff.jpg)
 

@@ -19,6 +19,7 @@ const parseArgs = (cmd) => {
     directory: directory ? path.resolve(directory) : undefined,
     sourceEnvironment: cmd.sourceEnv || cmd.parent.sourceEnv,
     destEnvironment: cmd.destEnv || cmd.parent.destEnv,
+    verbose: cmd.verbose || cmd.parent.verbose,
   };
 };
 
@@ -68,6 +69,7 @@ program
   .requiredOption('-c, --content-type <content-type>', 'Specify content-type')
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
+  .option('-v, --verbose', 'Verbosity')
   .description('Generated new contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -81,6 +83,7 @@ program
   .command('generate')
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
+  .option('-v, --verbose', 'Verbosity')
   .description('Generated new contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -94,6 +97,7 @@ program
   .command('migrate')
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are stored')
+  .option('-v, --verbose', 'Verbosity')
   .description('Execute all unexecuted migrations available.')
   .action(
     actionRunner(async (cmd) => {
@@ -105,16 +109,18 @@ program
 
 program
   .command('content')
-  .requiredOption('-s, --source-env <environment>', 'Set the contentful source environment')
-  .requiredOption('-d, --dest-env <environment>', 'Set the contentful destination environment')
+  .requiredOption('-s, --source-env <environment>', 'Set the contentful source environment (from)')
+  .requiredOption('-d, --dest-env <environment>', 'Set the contentful destination environment (to)')
   .option('-c, --content-type <content-type>', 'Specify content-type')
   .option('--diff', 'Manually choose skip/overwrite for every conflict')
   .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
-  .description('Transfer content from one environment to another environment')
+  .option('-v, --verbose', 'Verbosity')
+  .description('Transfer content from source environment to destination environment')
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd));
       const verified = await askMissing(config);
+
       // run migrations on destination environment
       await transferContent({
         ...verified,
