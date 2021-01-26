@@ -13,21 +13,22 @@ const pkg = require('./package.json');
 require('dotenv').config();
 
 const parseArgs = (cmd) => {
-  const directory = cmd.path || cmd.parent.path;
+  const { parent = {} } = cmd || {};
+  const directory = cmd.path || parent.path;
   return {
-    environment: cmd.env || cmd.parent.env,
+    environment: cmd.env || parent.env,
     directory: directory ? path.resolve(directory) : undefined,
-    sourceEnvironment: cmd.sourceEnv || cmd.parent.sourceEnv,
-    destEnvironment: cmd.destEnv || cmd.parent.destEnv,
-    verbose: cmd.verbose || cmd.parent.verbose,
+    sourceEnvironment: cmd.sourceEnv || parent.sourceEnv,
+    destEnvironment: cmd.destEnv || parent.destEnv,
+    verbose: cmd.verbose || parent.verbose,
   };
 };
 
 const errorHandler = (error, log) => {
   if (log) {
     const { errors, message } = error;
-
     console.error(chalk.red('\nError:'), message);
+    console.log(error);
     (errors || []).forEach((error) => {
       console.error(chalk.red('Error:'), error.message);
     });
@@ -46,7 +47,7 @@ program
   .description('Initialize contentful-migrations')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd));
+      const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askAll(config);
       const { managementToken, accessToken, environment, ...rest } = verified;
 
@@ -73,7 +74,7 @@ program
   .description('Generated new contentful migration')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd));
+      const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askMissing(config);
       await fetchMigration({ ...verified, contentType: cmd.contentType });
     })
@@ -87,7 +88,7 @@ program
   .description('Generated new contentful migration')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd));
+      const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askMissing(config);
       await createMigration(verified);
     })
@@ -101,7 +102,7 @@ program
   .description('Execute all unexecuted migrations available.')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd));
+      const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askMissing(config);
       await runMigrations(verified);
     }, false)
@@ -118,7 +119,7 @@ program
   .description('Transfer content from source environment to destination environment')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd));
+      const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askMissing(config);
 
       // run migrations on destination environment
