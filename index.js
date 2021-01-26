@@ -7,6 +7,7 @@ const path = require('path');
 const pkgUp = require('pkg-up');
 const chalk = require('chalk');
 const { createMigration, runMigrations, fetchMigration, transferContent } = require('./lib/migration');
+const { createOfflineDocs } = require('./lib/doc');
 const { getConfig, askAll, askMissing } = require('./lib/config');
 const pkg = require('./package.json');
 
@@ -32,6 +33,8 @@ const errorHandler = (error, log) => {
     (errors || []).forEach((error) => {
       console.error(chalk.red('Error:'), error.message);
     });
+  } else {
+    console.log(error);
   }
   process.exit(1);
 };
@@ -105,6 +108,20 @@ program
       const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askMissing(config);
       await runMigrations(verified);
+    }, false)
+  );
+
+program
+  .command('doc')
+  .option('-e, --env <environment>', 'Change the contentful environment')
+  .option('-p, --path <path/to/docs>', 'Change the path where the docs are stored')
+  .option('-v, --verbose', 'Verbosity')
+  .description('Generate offline docs from content-types')
+  .action(
+    actionRunner(async (cmd) => {
+      const config = await getConfig(parseArgs(cmd || {}));
+      const verified = await askMissing(config);
+      await createOfflineDocs(verified);
     }, false)
   );
 
