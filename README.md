@@ -79,6 +79,14 @@ npx migrations content --source-env <environment>  --dest-env <environment>
 
 ![Diff example](https://raw.githubusercontent.com/jungvonmatt/contentful-migrations/master/diff.jpg)
 
+### doc
+
+Generate simple markdown docs for the content-types
+
+```bash
+npx migrations doc -e <environment> -d <directory>
+```
+
 ## Can I contribute?
 
 Of course. We appreciate all of our [contributors](https://github.com/jungvonmatt/contentful-migrations/graphs/contributors) and
