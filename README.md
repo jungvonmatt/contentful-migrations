@@ -84,7 +84,7 @@ npx migrations content --source-env <environment>  --dest-env <environment>
 Generate simple markdown docs for the content-types
 
 ```bash
-npx migrations doc -e <environment> -d <directory>
+npx migrations doc -e <environment> -p <path/to/docs>
 ```
 
 ## Can I contribute?
