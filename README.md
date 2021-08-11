@@ -70,7 +70,7 @@ This command will not overwrite existing content unless you say so.
 npx migrations content --source-env <environment>  --dest-env <environment>
 ```
 
-##### Optional Arguments
+#### Optional arguments
 
 `--content-type`: Limit to specific content-type and it's dependencies.<br/>
 `--diff`: Manually choose skip/overwrite for every conflicting content.<br/>
@@ -86,6 +86,10 @@ Generate simple markdown docs for the content-types
 ```bash
 npx migrations doc -e <environment> -p <path/to/docs>
 ```
+
+#### Optional arguments
+
+`--template`: Choose between the **api** (default) and the more compact **editor** markdown template
 
 ## Can I contribute?
 

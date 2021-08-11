@@ -21,6 +21,7 @@ const parseArgs = (cmd) => {
     directory: directory ? path.resolve(directory) : undefined,
     sourceEnvironment: cmd.sourceEnv || parent.sourceEnv,
     destEnvironment: cmd.destEnv || parent.destEnv,
+    template: cmd.template || parent.template,
     verbose: cmd.verbose || parent.verbose,
   };
 };
@@ -113,6 +114,7 @@ program
   .command('doc')
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/docs>', 'Change the path where the docs are stored')
+  .option('-t, --template <template>', 'Change the docs template')
   .option('-v, --verbose', 'Verbosity')
   .description('Generate offline docs from content-types')
   .action(
