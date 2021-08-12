@@ -2,14 +2,15 @@
 
 /* eslint-disable no-console */
 /* eslint-env node */
-const fs = require('fs-extra');
-const path = require('path');
-const pkgUp = require('pkg-up');
-const chalk = require('chalk');
-const { createMigration, runMigrations, fetchMigration, transferContent } = require('./lib/migration');
-const { createOfflineDocs } = require('./lib/doc');
-const { getConfig, askAll, askMissing } = require('./lib/config');
-const pkg = require('./package.json');
+import fs from 'fs-extra';
+import path from 'path';
+import pkgUp from 'pkg-up';
+import chalk from 'chalk';
+import { createMigration, runMigrations, fetchMigration, transferContent } from './lib/migration.js';
+import { createOfflineDocs } from './lib/doc.js';
+import { getConfig, askAll, askMissing } from './lib/config.js';
+
+const pkg = JSON.parse(fs.readFileSync('package.json'));
 
 require('dotenv').config();
 

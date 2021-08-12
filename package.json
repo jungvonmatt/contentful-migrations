@@ -1,8 +1,9 @@
 {
   "name": "@jungvonmatt/contentful-migrations",
   "version": "2.0.3",
+  "type": "module",
   "description": "Helper to handle migrations in contentful",
-  "main": "index.js",
+  "exports": "./index.js",
   "files": [
     "index.js",
     "lib"
@@ -31,6 +32,10 @@
   ],
   "dependencies": {
     "@contentful/rich-text-plain-text-renderer": "^14.1.2",
+    "@proload/core": "^0.1.4",
+    "@proload/plugin-json": "^0.1.0",
+    "@proload/plugin-rc": "^0.1.0",
+    "@proload/plugin-typescript": "^0.1.0",
     "array.prototype.flatmap": "^1.2.4",
     "ascii-tree": "^0.3.0",
     "chalk": "^4.1.1",
