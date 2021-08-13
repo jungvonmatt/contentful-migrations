@@ -22,6 +22,8 @@ const parseArgs = (cmd) => {
     sourceEnvironment: cmd.sourceEnv || parent.sourceEnv,
     destEnvironment: cmd.destEnv || parent.destEnv,
     verbose: cmd.verbose || parent.verbose,
+    template: cmd.template || parent.template,
+    extension: cmd.extension || parent.extension,
   };
 };
 
@@ -114,13 +116,15 @@ program
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/docs>', 'Change the path where the docs are stored')
   .option('-v, --verbose', 'Verbosity')
+  .option('-t, --template <path/to/template>', 'Use custom template for docs')
+  .option('--extension <file-extension>', 'Use custom file extension (default is `md`)')
   .description('Generate offline docs from content-types')
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askMissing(config);
       await createOfflineDocs(verified);
-    }, false)
+    }, true)
   );
 
 program

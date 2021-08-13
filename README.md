@@ -87,6 +87,11 @@ Generate simple markdown docs for the content-types
 npx migrations doc -e <environment> -p <path/to/docs>
 ```
 
+##### Optional Arguments
+
+`--template`: Use a custom template for docs. `.js` with default export or `.mustache` is allowed<br/>
+`--extension`: Use a custom file extension (default is `.md`)<br/>
+
 ## Can I contribute?
 
 Of course. We appreciate all of our [contributors](https://github.com/jungvonmatt/contentful-migrations/graphs/contributors) and
