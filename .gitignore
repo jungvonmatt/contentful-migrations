@@ -40,6 +40,7 @@ node_modules/
 
 # dotenv environment variables file
 .env
+migrations.config.js
 
 # Temporary folders
 tmp/
