@@ -33,13 +33,13 @@
     "@contentful/rich-text-plain-text-renderer": "^14.1.2",
     "array.prototype.flatmap": "^1.2.4",
     "ascii-tree": "^0.3.0",
-    "chalk": "^4.1.1",
+    "chalk": "^4.1.2",
     "commander": "^7.2.0",
     "common-tags": "^1.8.0",
-    "contentful-cli": "^1.6.44",
-    "contentful-import": "^8.1.15",
-    "contentful-management": "^7.24.0",
-    "contentful-migration": "^4.1.17",
+    "contentful-cli": "^1.8.23",
+    "contentful-import": "^8.1.25",
+    "contentful-management": "^7.31.0",
+    "contentful-migration": "^4.2.5",
     "cosmiconfig": "^7.0.0",
     "deep-diff": "^1.0.2",
     "diff": "^5.0.0",
@@ -47,7 +47,7 @@
     "fs-extra": "^10.0.0",
     "git-branch": "^2.0.1",
     "globby": "^11.0.3",
-    "inquirer": "^8.1.0",
+    "inquirer": "^8.1.2",
     "markdown-table": "^2.0.0",
     "merge-options": "^3.0.4",
     "mustache": "^4.2.0",
@@ -56,12 +56,12 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.28.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^6.0.0",
-    "lint-staged": "^11.0.0",
-    "prettier": "^2.3.1"
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.3.2"
   },
   "publishConfig": {
     "access": "public"
