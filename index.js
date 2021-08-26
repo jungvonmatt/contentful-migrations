@@ -71,7 +71,7 @@ program
 
 program
   .command('fetch')
-  .option('-c, --content-type <content-type>', 'Specify content-type')
+  .option('-c, --content-type <content-type...>', 'Specify content-types')
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('-v, --verbose', 'Verbosity')
