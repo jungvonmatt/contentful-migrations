@@ -30,13 +30,11 @@ Initializes migrations and stores the config values in the `package.json` or the
 | ------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | accessToken        | `undefined`    | Contentful Management Token. Just run `npx contentful login` and you're done.                                                               |
 | spaceId            | `undefined`    | Contentful Space id                                                                                                                         |
-| defaultEnvironment | 'master'       | Contentful Space environment. Acts as default if there is no environment named after the current git branch or the passed env doesn't exist |
-| strategy           | ''             | We need to keep a hint to the executed migrations inside contentful. You can choose between **Content-model** and **Tag**.
-**Content-model** will add a new content-model to your contentful environment and stores the state of every migration as content entry (recommended approach)
-**Tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
-| fieldId            | 'migration'    | Id of the tag where the migration version is stored                                                                                         |
-| contentTypeId      | 'contentful-migrations'    | Id of the migration content-type                                                                                                |
-| directory          | './migrations' | Directory where the migration files are stored                                                                                              |
+| defaultEnvironment | `'master'`       | Contentful Space environment. Acts as default if there is no environment named after the current git branch or the passed env doesn't exist |
+| strategy           | `undefined`             | We need to keep a hint to the executed migrations inside contentful. You can choose between **Content-model** and **Tag**. <br/><br/>**Content-model** will add a new content-model to your contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**Tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
+| fieldId            | `'migration'`    | Id of the tag where the migration version is stored                                                                                         |
+| contentTypeId      | `'contentful-migrations'`    | Id of the migration content-type                                                                                                |
+| directory          | `'./migrations'` | Directory where the migration files are stored                                                                                              |
 
 ### generate
 
@@ -77,7 +75,7 @@ npx migrations execute <path/to/migration.js>
 Sometimes you may need to manually mark a migration as migrated or not. You can use the version command for this.
 Use caution when using the version command. If you delete a version from the table and then run the migrate command, that migration version will be executed again.
 
-*This command is only available when using the Content-model strategy
+*This command is only available when using the Content-model strategy*
 
 ```bash
 # Add a migration entry to contentful
