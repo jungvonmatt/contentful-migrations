@@ -24,6 +24,8 @@ npx migrations init
 
 Initializes migrations and stores the config values in the `package.json` or the `.migrationsrc` file.
 
+**Use this command if you want to switch from managing migrations in contentful with a single Tag to the recommended approach using a dedicated content type for migrations**
+
 #### Configuration values
 
 | Name               | Default        | Description                                                                                                                                 |
