@@ -6,9 +6,22 @@ const fs = require('fs-extra');
 const path = require('path');
 const pkgUp = require('pkg-up');
 const chalk = require('chalk');
-const { createMigration, runMigrations, fetchMigration, transferContent } = require('./lib/migration');
+const { Command } = require('commander');
+
+const {
+  createMigration,
+  runMigrations,
+  fetchMigration,
+  transferContent,
+  initializeContentModel,
+  migrateToContentStrategy,
+  migrateToTagStrategy,
+  executeMigration,
+  versionDelete,
+  versionAdd,
+} = require('./lib/migration');
 const { createOfflineDocs } = require('./lib/doc');
-const { getConfig, askAll, askMissing } = require('./lib/config');
+const { getConfig, askAll, askMissing, STRATEGY_CONTENT, STRATEGY_TAG } = require('./lib/config');
 const pkg = require('./package.json');
 
 require('dotenv').config();
@@ -25,6 +38,7 @@ const parseArgs = (cmd) => {
     verbose: cmd.verbose || parent.verbose,
     template: cmd.template || parent.template,
     extension: cmd.extension || parent.extension,
+    bail: cmd.bail || parent.bail,
   };
 };
 
@@ -44,7 +58,8 @@ const actionRunner = (fn, log = true) => {
   return (...args) => fn(...args).catch((error) => errorHandler(error, log));
 };
 
-const program = require('commander');
+const program = new Command();
+
 program.version(pkg.version);
 program
   .command('init')
@@ -54,6 +69,14 @@ program
       const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askAll(config);
       const { managementToken, accessToken, environment, ...rest } = verified;
+
+      if (verified.strategy === STRATEGY_CONTENT) {
+        await initializeContentModel(verified);
+        await migrateToContentStrategy({ ...config, ...verified });
+      }
+      if (verified.strategy === STRATEGY_TAG) {
+        await migrateToTagStrategy({ ...config, ...verified });
+      }
 
       // try to store in package.json
       const localPkg = await pkgUp();
@@ -105,6 +128,8 @@ program
   .option('-e, --env <environment>', 'Change the contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are stored')
   .option('-v, --verbose', 'Verbosity')
+  .option('--bail', 'Abort execution after first failed migration (default: true)', true)
+  .option('--no-bail', 'Ignore failed migrations')
   .option('--space-id <space-id>', 'Contentful space id')
   .description('Execute all unexecuted migrations available.')
   .action(
@@ -112,6 +137,43 @@ program
       const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askMissing(config);
       await runMigrations(verified);
+    }, false)
+  );
+
+program
+  .command('execute <file>')
+  .option('-e, --env <environment>', 'Change the contentful environment')
+  .option('--space-id <space-id>', 'Contentful space id')
+  .description('Execute a single migration.')
+  .action(
+    actionRunner(async (file, options) => {
+      const config = await getConfig(parseArgs(options || {}));
+      const verified = await askMissing(config);
+      await executeMigration(path.resolve(file), verified);
+    }, false)
+  );
+
+program
+  .command('version <file>')
+  .option('-e, --env <environment>', 'Change the contentful environment')
+  .option('--space-id <space-id>', 'Contentful space id')
+  .option('--add', 'Mark migration as migrated')
+  .option('--delete', 'Delete migration entry in contentful')
+  .description('Manually mark a migration as migrated or not. (Only available with the Content-model strategy)')
+  .action(
+    actionRunner(async (file, options) => {
+      const { delete: deleteVersion, add: addVersion } = options;
+      const config = await getConfig(parseArgs(options || {}));
+      const verified = await askMissing(config);
+      const { strategy } = verified || {};
+      if (strategy === STRATEGY_TAG) {
+        throw new Error('The version command is not available for the "tag" strategy');
+      }
+      if (deleteVersion) {
+        versionDelete(file, verified);
+      } else if (addVersion) {
+        versionAdd(file, verified);
+      }
     }, false)
   );
 
