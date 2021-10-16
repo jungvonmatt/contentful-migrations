@@ -24,7 +24,7 @@ npx migrations init
 
 Initializes migrations and stores the config values in the `package.json` or the `.migrationsrc` file.
 
-**Use this command if you want to switch from managing migrations in contentful with a single Tag to the recommended approach using a dedicated content type for migrations**
+**Use this command if you want to switch from managing migrations in Contentful with a single Tag to the recommended approach using a dedicated content type for migrations**
 
 #### Configuration values
 
@@ -33,7 +33,7 @@ Initializes migrations and stores the config values in the `package.json` or the
 | accessToken        | `undefined`    | Contentful Management Token. Just run `npx contentful login` and you're done.                                                               |
 | spaceId            | `undefined`    | Contentful Space id                                                                                                                         |
 | defaultEnvironment | `'master'`       | Contentful Space environment. Acts as default if there is no environment named after the current git branch or the passed env doesn't exist |
-| strategy           | `undefined`             | We need to keep a hint to the executed migrations inside contentful. You can choose between **Content-model** and **Tag**. <br/><br/>**Content-model** will add a new content-model to your contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**Tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
+| strategy           | `undefined`             | We need to keep a hint to the executed migrations inside Contentful. You can choose between **Content-model** and **Tag**. <br/><br/>**Content-model** will add a new content-model to your Contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**Tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
 | fieldId            | `'migration'`    | Id of the tag where the migration version is stored                                                                                         |
 | contentTypeId      | `'contentful-migrations'`    | Id of the migration content-type                                                                                                |
 | directory          | `'./migrations'` | Directory where the migration files are stored                                                                                              |
@@ -80,17 +80,17 @@ Use caution when using the version command. If you delete a version from the tab
 *This command is only available when using the Content-model strategy*
 
 ```bash
-# Add a migration entry to contentful
+# Add a migration entry to Contentful
 npx migrations version <path/to/migration.js> --add
 
 
-# Delete a migration entry from contentful
+# Delete a migration entry from Contentful
 npx migrations version <path/to/migration.js> --delete
 ```
 
 ### content
 
-Transfer content from one contentful environment to another.<br/>
+Transfer content from one Contentful environment to another.<br/>
 This command will not overwrite existing content unless you say so.
 
 ```bash
