@@ -8,18 +8,10 @@ const pkgUp = require('pkg-up');
 const chalk = require('chalk');
 const { Command } = require('commander');
 
-const {
-  createMigration,
-  runMigrations,
-  fetchMigration,
-  transferContent,
-  initializeContentModel,
-  migrateToContentStrategy,
-  migrateToTagStrategy,
-  executeMigration,
-  versionDelete,
-  versionAdd,
-} = require('./lib/migration');
+const { initializeContentModel, migrateToContentStrategy, migrateToTagStrategy } = require('./lib/backend');
+const { createMigration, runMigrations, fetchMigration, executeMigration } = require('./lib/migration');
+const { versionDelete, versionAdd } = require('./lib/version');
+const { transferContent } = require('./lib/content');
 const { createOfflineDocs } = require('./lib/doc');
 const { getConfig, askAll, askMissing, STRATEGY_CONTENT, STRATEGY_TAG } = require('./lib/config');
 const pkg = require('./package.json');
@@ -46,7 +38,6 @@ const errorHandler = (error, log) => {
   if (log) {
     const { errors, message } = error;
     console.error(chalk.red('\nError:'), message);
-    console.log(error);
     (errors || []).forEach((error) => {
       console.error(chalk.red('Error:'), error.message);
     });
@@ -71,7 +62,7 @@ program
       const { managementToken, accessToken, environment, ...rest } = verified;
 
       if (verified.strategy === STRATEGY_CONTENT) {
-        await initializeContentModel(verified);
+        await initializeContentModel({ ...config, ...verified });
         await migrateToContentStrategy({ ...config, ...verified });
       }
       if (verified.strategy === STRATEGY_TAG) {
@@ -98,7 +89,7 @@ program
   .option('-e, --env <environment>', 'Change the Contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('-v, --verbose', 'Verbosity')
-  .option('--space-id <space-id>', 'Contentful space id')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
   .description('Generated new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -113,7 +104,7 @@ program
   .option('-e, --env <environment>', 'Change the Contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('-v, --verbose', 'Verbosity')
-  .option('--space-id <space-id>', 'Contentful space id')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
   .description('Generated new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -130,7 +121,7 @@ program
   .option('-v, --verbose', 'Verbosity')
   .option('--bail', 'Abort execution after first failed migration (default: true)', true)
   .option('--no-bail', 'Ignore failed migrations')
-  .option('--space-id <space-id>', 'Contentful space id')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
   .description('Execute all unexecuted migrations available.')
   .action(
     actionRunner(async (cmd) => {
@@ -143,7 +134,7 @@ program
 program
   .command('execute <file>')
   .option('-e, --env <environment>', 'Change the Contentful environment')
-  .option('--space-id <space-id>', 'Contentful space id')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
   .description('Execute a single migration.')
   .action(
     actionRunner(async (file, options) => {
@@ -156,7 +147,7 @@ program
 program
   .command('version <file>')
   .option('-e, --env <environment>', 'Change the Contentful environment')
-  .option('--space-id <space-id>', 'Contentful space id')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('--add', 'Mark migration as migrated')
   .option('--delete', 'Delete migration entry in Contentful')
   .description('Manually mark a migration as migrated or not. (Only available with the Content-model strategy)')
@@ -170,11 +161,11 @@ program
         throw new Error('The version command is not available for the "tag" strategy');
       }
       if (deleteVersion) {
-        versionDelete(file, verified);
+        await versionDelete(file, verified);
       } else if (addVersion) {
-        versionAdd(file, verified);
+        await versionAdd(file, verified);
       }
-    }, false)
+    }, true)
   );
 
 program
@@ -183,8 +174,8 @@ program
   .option('-p, --path <path/to/docs>', 'Change the path where the docs are stored')
   .option('-v, --verbose', 'Verbosity')
   .option('-t, --template <path/to/template>', 'Use custom template for docs')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('--extension <file-extension>', 'Use custom file extension (default is `md`)')
-  .option('--space-id <space-id>', 'Contentful space id')
   .description('Generate offline docs from content-types')
   .action(
     actionRunner(async (cmd) => {
@@ -196,13 +187,13 @@ program
 
 program
   .command('content')
-  .requiredOption('-s, --source-env <environment>', 'Set the Contentful source environment (from)')
-  .requiredOption('-d, --dest-env <environment>', 'Set the Contentful destination environment (to)')
+  .requiredOption('--source-env <environment>', 'Set the Contentful source environment (from)')
+  .requiredOption('--dest-env <environment>', 'Set the Contentful destination environment (to)')
   .option('-c, --content-type <content-type>', 'Specify content-type')
   .option('--diff', 'Manually choose skip/overwrite for every conflict')
   .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
   .option('-v, --verbose', 'Verbosity')
-  .option('--space-id <space-id>', 'Contentful space id')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
   .description('Transfer content from source environment to destination environment')
   .action(
     actionRunner(async (cmd) => {
