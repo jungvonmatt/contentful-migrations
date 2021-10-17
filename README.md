@@ -34,7 +34,8 @@ This initializes migrations and stores the config values in the `package.json` o
 | migrationContentTypeId      | `'contentful-migrations'`    | Id of the migration content-type                                                                                                |
 | directory          | `'./migrations'` | Directory where the migration files are stored                                                                                              |
 
-
+<br/>
+<br/>
 ## Handling contentful environments
 
 It is recommended that you develop and test your migrations in a separate environment before executing them on production content. You can handle environments using the `environment` command:
