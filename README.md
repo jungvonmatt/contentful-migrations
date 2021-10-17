@@ -137,7 +137,7 @@ npx migrations content --source-env <environment>  --dest-env <environment>
 
 ![Diff example](https://raw.githubusercontent.com/jungvonmatt/contentful-migrations/master/diff.jpg)
 
-### Generating documentation for your content types
+## Generating documentation for your content types
 
 You may want to have some markdown documentation for your content-types. With the `doc` command you can auto-generate the documentation. You can use the default template or you can specify a custom template using either a Javascript file or a mustache template.
 
