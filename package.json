@@ -37,7 +37,7 @@
     "commander": "^7.2.0",
     "common-tags": "^1.8.0",
     "contentful-cli": "^1.8.23",
-    "contentful-import": "^8.2.0",
+    "contentful-import": "^8.2.22",
     "contentful-management": "^7.32.0",
     "contentful-migration": "^4.3.0",
     "cosmiconfig": "^7.0.0",
