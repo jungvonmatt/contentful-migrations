@@ -36,6 +36,7 @@ This initializes migrations and stores the config values in the `package.json` o
 
 <br/>
 <br/>
+
 ## Handling contentful environments
 
 It is recommended that you develop and test your migrations in a separate environment before executing them on production content. You can handle environments using the `environment` command:
