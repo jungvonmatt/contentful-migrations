@@ -15,6 +15,7 @@ const { transferContent } = require('./lib/content');
 const { createOfflineDocs } = require('./lib/doc');
 const { getConfig, askAll, askMissing, STRATEGY_CONTENT, STRATEGY_TAG } = require('./lib/config');
 const pkg = require('./package.json');
+const { createEnvironment, removeEnvironment } = require('./lib/environment');
 
 require('dotenv').config();
 
@@ -149,21 +150,47 @@ program
   .option('-e, --env <environment>', 'Change the Contentful environment')
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('--add', 'Mark migration as migrated')
-  .option('--delete', 'Delete migration entry in Contentful')
+  .option('--remove', 'Delete migration entry in Contentful')
   .description('Manually mark a migration as migrated or not. (Only available with the Content-model strategy)')
   .action(
     actionRunner(async (file, options) => {
-      const { delete: deleteVersion, add: addVersion } = options;
+      const { remove, add } = options;
       const config = await getConfig(parseArgs(options || {}));
       const verified = await askMissing(config);
       const { strategy } = verified || {};
       if (strategy === STRATEGY_TAG) {
         throw new Error('The version command is not available for the "tag" strategy');
       }
-      if (deleteVersion) {
+      if (remove) {
         await versionDelete(file, verified);
-      } else if (addVersion) {
+      } else if (add) {
         await versionAdd(file, verified);
+      }
+    }, true)
+  );
+
+program
+  .command('environment <environment-id>')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
+  .option('--create', 'Create new contentful environment')
+  .option('--remove', 'Delete contentful environment')
+  .description('Add or remove contentful environment for migrations')
+  .action(
+    actionRunner(async (environmentId, options) => {
+      const { remove, create } = options;
+      const config = await getConfig(parseArgs(options || {}));
+      const verified = await askMissing(config);
+
+      if (create) {
+        return createEnvironment(environmentId, verified);
+      }
+
+      if (remove) {
+        return removeEnvironment(environmentId, verified);
+      }
+
+      if (reset) {
+        return resetEnvironment(environmentId, verified);
       }
     }, true)
   );
