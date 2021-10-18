@@ -117,12 +117,12 @@ program
 
 program
   .command('migrate')
-  .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are stored')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
+  .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are stored')
   .option('-v, --verbose', 'Verbosity')
   .option('--bail', 'Abort execution after first failed migration (default: true)', true)
   .option('--no-bail', 'Ignore failed migrations')
-  .option('-s, --space-id <space-id>', 'Contentful space id')
   .description('Execute all unexecuted migrations available.')
   .action(
     actionRunner(async (cmd) => {
