@@ -26,8 +26,8 @@ const parseArgs = (cmd) => {
     ...cmd,
     environment: cmd.env || parent.env,
     directory: directory ? path.resolve(directory) : undefined,
-    sourceEnvironment: cmd.sourceEnv || parent.sourceEnv,
-    destEnvironment: cmd.destEnv || parent.destEnv,
+    sourceEnvironmentId: cmd.sourceEnvironmentId || parent.sourceEnvironmentId,
+    destEnvironmentId: cmd.destEnvironmentId || parent.destEnvironmentId,
     verbose: cmd.verbose || parent.verbose,
     template: cmd.template || parent.template,
     extension: cmd.extension || parent.extension,
@@ -86,11 +86,11 @@ program
 
 program
   .command('fetch')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
+  .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-c, --content-type <content-type...>', 'Specify content-types')
-  .option('-e, --env <environment>', 'Change the Contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('-v, --verbose', 'Verbosity')
-  .option('-s, --space-id <space-id>', 'Contentful space id')
   .description('Generated new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -102,10 +102,10 @@ program
 
 program
   .command('generate')
-  .option('-e, --env <environment>', 'Change the Contentful environment')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
+  .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('-v, --verbose', 'Verbosity')
-  .option('-s, --space-id <space-id>', 'Contentful space id')
   .description('Generated new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -117,8 +117,8 @@ program
 
 program
   .command('migrate')
-  .option('-e, --env <environment>', 'Change the Contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are stored')
+  .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-v, --verbose', 'Verbosity')
   .option('--bail', 'Abort execution after first failed migration (default: true)', true)
   .option('--no-bail', 'Ignore failed migrations')
@@ -134,8 +134,8 @@ program
 
 program
   .command('execute <file>')
-  .option('-e, --env <environment>', 'Change the Contentful environment')
   .option('-s, --space-id <space-id>', 'Contentful space id')
+  .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .description('Execute a single migration.')
   .action(
     actionRunner(async (file, options) => {
@@ -147,8 +147,8 @@ program
 
 program
   .command('version <file>')
-  .option('-e, --env <environment>', 'Change the Contentful environment')
   .option('-s, --space-id <space-id>', 'Contentful space id')
+  .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('--add', 'Mark migration as migrated')
   .option('--remove', 'Delete migration entry in Contentful')
   .description('Manually mark a migration as migrated or not. (Only available with the Content-model strategy)')
@@ -197,11 +197,11 @@ program
 
 program
   .command('doc')
-  .option('-e, --env <environment>', 'Change the Contentful environment')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
+  .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-p, --path <path/to/docs>', 'Change the path where the docs are stored')
   .option('-v, --verbose', 'Verbosity')
   .option('-t, --template <path/to/template>', 'Use custom template for docs')
-  .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('--extension <file-extension>', 'Use custom file extension (default is `md`)')
   .description('Generate offline docs from content-types')
   .action(
@@ -214,13 +214,13 @@ program
 
 program
   .command('content')
-  .requiredOption('--source-env <environment>', 'Set the Contentful source environment (from)')
-  .requiredOption('--dest-env <environment>', 'Set the Contentful destination environment (to)')
+  .requiredOption('--source-environment-id <environment-id>', 'Set the Contentful source environment (from)')
+  .requiredOption('--dest-environment-id <environment-id>', 'Set the Contentful destination environment (to)')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-c, --content-type <content-type>', 'Specify content-type')
   .option('--diff', 'Manually choose skip/overwrite for every conflict')
   .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
   .option('-v, --verbose', 'Verbosity')
-  .option('-s, --space-id <space-id>', 'Contentful space id')
   .description('Transfer content from source environment to destination environment')
   .action(
     actionRunner(async (cmd) => {

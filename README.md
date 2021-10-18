@@ -24,15 +24,16 @@ This initializes migrations and stores the config values in the `package.json` o
 
 #### Configuration values
 
-| Name               | Default        | Description                                                                                                                                 |
-| ------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| accessToken        | `undefined`    | Contentful Management Token. Just run `npx contentful login` and you're done.                                                               |
-| spaceId            | `undefined`    | Contentful Space id                                                                                                                         |
-| defaultEnvironment | `'master'`       | Contentful Space environment. Acts as default if there is no environment named after the current git branch or the passed env doesn't exist |
-| strategy           | `undefined`             | We need to keep a hint to the executed migrations inside Contentful. You can choose between **Content-model** and **Tag**. <br/><br/>**Content-model** will add a new content-model to your Contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**Tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
-| fieldId            | `'migration'`    | Id of the tag where the migration version is stored                                                                                         |
-| migrationContentTypeId      | `'contentful-migrations'`    | Id of the migration content-type                                                                                                |
-| directory          | `'./migrations'` | Directory where the migration files are stored                                                                                              |
+| Name                   | Default        | Description                                                                                                                                 |
+| ---------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| accessToken            | `undefined`    | Contentful Management Token. Just run `npx contentful login` and you're done.                                                               |
+| spaceId                | `undefined`    | Contentful Space id. Will fallback to `process.env.CONTENTFUL_SPACE_ID` if not set.                                                         |
+| environmentId          | `undefined`    | Contentful Environment id. Will fallback to `process.env.CONTENTFUL_ENVIRONMENT_ID` if not set.<br/>If neither `environmentId` nor `CONTENTFUL_ENVIRONMENT_ID` is available we search for environment whose id matches the current git branch |
+| fallbackEnvironmentId  | `'master'`     | Contentful Space environment. Acts as default if there is no environment named after the current git branch or the passed env doesn't exist |
+| strategy               | `undefined`    | We need to keep a hint to the executed migrations inside Contentful. You can choose between **content* and **tag**. <br/><br/>**Content** will add a new content type to your Contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
+| fieldId                | `'migration'`  | Id of the tag where the migration version is stored (only used with strategy `tag`)  |
+| migrationContentTypeId | `'contentful-migrations'` | Id of the migration content-type (only used with strategy `content`)  |
+| directory              | `'./migrations'` | Directory where the migration files are stored      |
 
 <br/>
 <br/>
@@ -110,13 +111,13 @@ Sometimes you may need to manually mark a migration as migrated or not. You can 
 npx migrations version <path/to/migration.js> --add
 
 # Delete a migration entry from Contentful
-npx migrations version <path/to/migration.js> --delete
+npx migrations version <path/to/migration.js> --remove
 
 # Add a migration entry to Contentful in a custom environment
 npx migrations version <path/to/migration.js> --add -e <environment-id>
 
 # Delete a migration entry from Contentful in a custom environment
-npx migrations version <path/to/migration.js> --delete -e <environment-id>
+npx migrations version <path/to/migration.js> --remove -e <environment-id>
 ```
 
 ## Migrating content between environments
