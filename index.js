@@ -8,7 +8,7 @@ const pkgUp = require('pkg-up');
 const chalk = require('chalk');
 const { Command } = require('commander');
 
-const { initializeContentModel, migrateToContentStrategy, migrateToTagStrategy } = require('./lib/backend');
+const { initializeContentModel, migrateToContentStorage, migrateToTagStorage } = require('./lib/backend');
 const { createMigration, runMigrations, fetchMigration, executeMigration } = require('./lib/migration');
 const { versionDelete, versionAdd } = require('./lib/version');
 const { transferContent } = require('./lib/content');
@@ -64,10 +64,10 @@ program
 
       if (verified.storage === STORAGE_CONTENT) {
         await initializeContentModel({ ...config, ...verified });
-        await migrateToContentStrategy({ ...config, ...verified });
+        await migrateToContentStorage({ ...config, ...verified });
       }
       if (verified.storage === STORAGE_TAG) {
-        await migrateToTagStrategy({ ...config, ...verified });
+        await migrateToTagStorage({ ...config, ...verified });
       }
 
       // try to store in package.json

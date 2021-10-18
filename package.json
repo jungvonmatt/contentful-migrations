@@ -34,6 +34,7 @@
     "array.prototype.flatmap": "^1.2.4",
     "ascii-tree": "^0.3.0",
     "chalk": "^4.1.2",
+    "cli-progress": "^3.9.1",
     "commander": "^7.2.0",
     "common-tags": "^1.8.0",
     "contentful-cli": "^1.8.23",
