@@ -91,7 +91,7 @@ program
   .option('-c, --content-type <content-type...>', 'Specify content-types')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('-v, --verbose', 'Verbosity')
-  .description('Generated new Contentful migration')
+  .description('Generated new Contentful migration from content type')
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
@@ -174,7 +174,7 @@ program
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('--create', 'Create new contentful environment')
   .option('--remove', 'Delete contentful environment')
-  .description('Add or remove contentful environment for migrations')
+  .description('Add or remove a contentful environment for migrations')
   .action(
     actionRunner(async (environmentId, options) => {
       const { remove, create } = options;
