@@ -13,9 +13,9 @@ const { createMigration, runMigrations, fetchMigration, executeMigration } = req
 const { versionDelete, versionAdd } = require('./lib/version');
 const { transferContent } = require('./lib/content');
 const { createOfflineDocs } = require('./lib/doc');
+const { createEnvironment, removeEnvironment, resetEnvironment } = require('./lib/environment');
 const { getConfig, askAll, askMissing, STORAGE_CONTENT, STORAGE_TAG } = require('./lib/config');
 const pkg = require('./package.json');
-const { createEnvironment, removeEnvironment } = require('./lib/environment');
 
 require('dotenv').config();
 
@@ -214,7 +214,7 @@ program
   .description('Add or remove a contentful environment for migrations')
   .action(
     actionRunner(async (environmentId, options) => {
-      const { remove, create } = options;
+      const { remove, create, reset } = options;
       const config = await getConfig(parseArgs(options || {}));
       const verified = await askMissing(config);
 
