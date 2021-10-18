@@ -60,7 +60,7 @@ program
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askAll(config);
-      const { managementToken, accessToken, environment, ...rest } = verified;
+      const { managementToken, accessToken, environmentId, ...rest } = verified;
 
       if (verified.storage === STORAGE_CONTENT) {
         await initializeContentModel({ ...config, ...verified });
@@ -128,8 +128,18 @@ program
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askMissing(config);
+
+      const { missingStorageModel } = verified;
+      if (missingStorageModel) {
+        console.error(
+          chalk.red('\nError:'),
+          `Missing migration content type. Run ${chalk.cyan('npx migrations init')}`
+        );
+        process.exit(1);
+      }
+
       await runMigrations(verified);
-    }, false)
+    }, true)
   );
 
 program
@@ -141,6 +151,16 @@ program
     actionRunner(async (file, options) => {
       const config = await getConfig(parseArgs(options || {}));
       const verified = await askMissing(config);
+
+      const { missingStorageModel } = verified;
+      if (missingStorageModel) {
+        console.error(
+          chalk.red('\nError:'),
+          `Missing migration content type. Run ${chalk.cyan('npx migrations init')}`
+        );
+        process.exit(1);
+      }
+
       await executeMigration(path.resolve(file), verified);
     }, false)
   );
@@ -157,6 +177,16 @@ program
       const { remove, add } = options;
       const config = await getConfig(parseArgs(options || {}));
       const verified = await askMissing(config);
+
+      const { missingStorageModel } = verified;
+      if (missingStorageModel) {
+        console.error(
+          chalk.red('\nError:'),
+          `Missing migration content type. Run ${chalk.cyan('npx migrations init')}`
+        );
+        process.exit(1);
+      }
+
       const { storage } = verified || {};
       if (storage === STORAGE_TAG) {
         throw new Error('The version command is not available for the "tag" storage');
@@ -174,6 +204,7 @@ program
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('--create', 'Create new contentful environment')
   .option('--remove', 'Delete contentful environment')
+  .option('--reset', 'Reset contentful environment')
   .description('Add or remove a contentful environment for migrations')
   .action(
     actionRunner(async (environmentId, options) => {
