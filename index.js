@@ -47,7 +47,10 @@ const errorHandler = (error, log) => {
 };
 
 const actionRunner = (fn, log = true) => {
-  return (...args) => fn(...args).catch((error) => errorHandler(error, log));
+  return (...args) => {
+    const verbose = args.some((arg) => arg.verbose);
+    return fn(...args).catch((error) => errorHandler(error, verbose || log));
+  };
 };
 
 const program = new Command();
@@ -139,13 +142,14 @@ program
       }
 
       await runMigrations(verified);
-    }, true)
+    }, false)
   );
 
 program
   .command('execute <file>')
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
+  .option('-v, --verbose', 'Verbosity')
   .description('Execute a single migration.')
   .action(
     actionRunner(async (file, options) => {
@@ -169,6 +173,7 @@ program
   .command('version <file>')
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
+  .option('-v, --verbose', 'Verbosity')
   .option('--add', 'Mark migration as migrated')
   .option('--remove', 'Delete migration entry in Contentful')
   .description('Manually mark a migration as migrated or not. (Only available with the Content-model storage)')
@@ -202,6 +207,7 @@ program
 program
   .command('environment <environment-id>')
   .option('-s, --space-id <space-id>', 'Contentful space id')
+  .option('-v, --verbose', 'Verbosity')
   .option('--create', 'Create new contentful environment')
   .option('--remove', 'Delete contentful environment')
   .option('--reset', 'Reset contentful environment')
@@ -249,9 +255,9 @@ program
   .requiredOption('--dest-environment-id <environment-id>', 'Set the Contentful destination environment (to)')
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-c, --content-type <content-type>', 'Specify content-type')
+  .option('-v, --verbose', 'Verbosity')
   .option('--diff', 'Manually choose skip/overwrite for every conflict')
   .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
-  .option('-v, --verbose', 'Verbosity')
   .description('Transfer content from source environment to destination environment')
   .action(
     actionRunner(async (cmd) => {
