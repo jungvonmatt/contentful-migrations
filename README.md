@@ -30,9 +30,9 @@ This initializes migrations and stores the config values in the `package.json` o
 | spaceId                | `undefined`    | Contentful Space id. Will fallback to `process.env.CONTENTFUL_SPACE_ID` if not set.                                                         |
 | environmentId          | `undefined`    | Contentful Environment id. Will fallback to `process.env.CONTENTFUL_ENVIRONMENT_ID` if not set.<br/>If neither `environmentId` nor `CONTENTFUL_ENVIRONMENT_ID` is available we search for environment whose id matches the current git branch |
 | fallbackEnvironmentId  | `'master'`     | Contentful Space environment. Acts as default if there is no environment named after the current git branch or the passed env doesn't exist |
-| strategy               | `undefined`    | We need to keep a hint to the executed migrations inside Contentful. You can choose between **content* and **tag**. <br/><br/>**Content** will add a new content type to your Contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
-| fieldId                | `'migration'`  | Id of the tag where the migration version is stored (only used with strategy `tag`)  |
-| migrationContentTypeId | `'contentful-migrations'` | Id of the migration content-type (only used with strategy `content`)  |
+| storage                | `undefined`    | We need to keep a hint to the executed migrations inside Contentful. You can choose between **content* and **tag**. <br/><br/>**Content** will add a new content type to your Contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
+| fieldId                | `'migration'`  | Id of the tag where the migration version is stored (only used with storage `tag`)  |
+| migrationContentTypeId | `'contentful-migrations'` | Id of the migration content-type (only used with storage `content`)  |
 | directory              | `'./migrations'` | Directory where the migration files are stored      |
 
 <br/>
@@ -104,7 +104,7 @@ npx migrations execute <path/to/migration.js> -e <environment-id>
 Sometimes you may need to manually mark a migration as migrated or not. You can use the `version` command for this.
 *Use caution when using the version command. If you delete a version from the table and then run the migrate command, that migration version will be executed again.*
 
-**This command is only available when using the Content-model strategy**
+**This command is only available when using the content storage**
 
 ```bash
 # Add a migration entry to Contentful

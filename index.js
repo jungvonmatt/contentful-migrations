@@ -13,7 +13,7 @@ const { createMigration, runMigrations, fetchMigration, executeMigration } = req
 const { versionDelete, versionAdd } = require('./lib/version');
 const { transferContent } = require('./lib/content');
 const { createOfflineDocs } = require('./lib/doc');
-const { getConfig, askAll, askMissing, STRATEGY_CONTENT, STRATEGY_TAG } = require('./lib/config');
+const { getConfig, askAll, askMissing, STORAGE_CONTENT, STORAGE_TAG } = require('./lib/config');
 const pkg = require('./package.json');
 const { createEnvironment, removeEnvironment } = require('./lib/environment');
 
@@ -62,11 +62,11 @@ program
       const verified = await askAll(config);
       const { managementToken, accessToken, environment, ...rest } = verified;
 
-      if (verified.strategy === STRATEGY_CONTENT) {
+      if (verified.storage === STORAGE_CONTENT) {
         await initializeContentModel({ ...config, ...verified });
         await migrateToContentStrategy({ ...config, ...verified });
       }
-      if (verified.strategy === STRATEGY_TAG) {
+      if (verified.storage === STORAGE_TAG) {
         await migrateToTagStrategy({ ...config, ...verified });
       }
 
@@ -151,15 +151,15 @@ program
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('--add', 'Mark migration as migrated')
   .option('--remove', 'Delete migration entry in Contentful')
-  .description('Manually mark a migration as migrated or not. (Only available with the Content-model strategy)')
+  .description('Manually mark a migration as migrated or not. (Only available with the Content-model storage)')
   .action(
     actionRunner(async (file, options) => {
       const { remove, add } = options;
       const config = await getConfig(parseArgs(options || {}));
       const verified = await askMissing(config);
-      const { strategy } = verified || {};
-      if (strategy === STRATEGY_TAG) {
-        throw new Error('The version command is not available for the "tag" strategy');
+      const { storage } = verified || {};
+      if (storage === STORAGE_TAG) {
+        throw new Error('The version command is not available for the "tag" storage');
       }
       if (remove) {
         await versionDelete(file, verified);
