@@ -64,7 +64,7 @@ program
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askAll(config);
-      const { managementToken, accessToken, environmentId, ...rest } = verified;
+      const { managementToken, accessToken, environmentId, spaceId, ...rest } = verified;
 
       if (verified.storage === STORAGE_CONTENT) {
         await initializeContentModel({ ...config, ...verified });
@@ -72,6 +72,10 @@ program
       }
       if (verified.storage === STORAGE_TAG) {
         await migrateToTagStorage({ ...config, ...verified });
+      }
+
+      if (!process.env.CONTENTFUL_SPACE_ID) {
+        rest.spaceId = spaceId;
       }
 
       // try to store in package.json
