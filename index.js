@@ -224,7 +224,7 @@ program
     actionRunner(async (environmentId, options) => {
       const { remove, create, reset } = options;
       const config = await getConfig(parseArgs({ ...(options || {}), environmentId }));
-      const verified = await askMissing(config);
+      const verified = await askMissingaskMissing(config, ['accessToken', 'spaceId', 'environmentId']);
 
       if (create) {
         return createEnvironment(environmentId, verified);
@@ -252,7 +252,7 @@ program
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askMissing(config);
+      const verified = await askMissing(config, ['accessToken', 'spaceId', 'environmentId']);
       await createOfflineDocs(verified);
     }, true)
   );
