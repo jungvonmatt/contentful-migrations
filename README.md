@@ -29,7 +29,6 @@ This initializes migrations and stores the config values in the `package.json` o
 | accessToken            | `undefined`    | Contentful Management Token. Just run `npx contentful login` and you're done.                                                               |
 | spaceId                | `undefined`    | Contentful Space id. Will fallback to `process.env.CONTENTFUL_SPACE_ID` if not set.                                                         |
 | environmentId          | `undefined`    | Contentful Environment id. Will fallback to `process.env.CONTENTFUL_ENVIRONMENT_ID` if not set.<br/>If neither `environmentId` nor `CONTENTFUL_ENVIRONMENT_ID` is available we search for environment whose id matches the current git branch |
-| fallbackEnvironmentId  | `'master'`     | Contentful Space environment. Acts as default if there is no environment named after the current git branch or the passed env doesn't exist |
 | storage                | `undefined`    | We need to keep a hint to the executed migrations inside Contentful. You can choose between **content* and **tag**. <br/><br/>**Content** will add a new content type to your Contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
 | fieldId                | `'migration'`  | Id of the tag where the migration version is stored (only used with storage `tag`)  |
 | migrationContentTypeId | `'contentful-migrations'` | Id of the migration content-type (only used with storage `content`)  |
@@ -48,6 +47,9 @@ npx migrations environment <environment-id> --create
 
 # Remove an environment
 npx migrations environment <environment-id> --remove
+
+# Reset an environment
+npx migrations environment <environment-id> --reset
 ```
 
 ## Generating blank migrations

@@ -30,6 +30,7 @@ const parseArgs = (cmd) => {
     destEnvironmentId: cmd.destEnvironmentId || parent.destEnvironmentId,
     verbose: cmd.verbose || parent.verbose,
     template: cmd.template || parent.template,
+    yes: cmd.yes || parent.yes,
     extension: cmd.extension || parent.extension,
     bail: cmd.bail || parent.bail,
   };
@@ -63,7 +64,7 @@ program
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
       const verified = await askAll(config);
-      const { managementToken, accessToken, environmentId, ...rest } = verified;
+      const { managementToken, accessToken, environmentId, spaceId, ...rest } = verified;
 
       if (verified.storage === STORAGE_CONTENT) {
         await initializeContentModel({ ...config, ...verified });
@@ -71,6 +72,10 @@ program
       }
       if (verified.storage === STORAGE_TAG) {
         await migrateToTagStorage({ ...config, ...verified });
+      }
+
+      if (!process.env.CONTENTFUL_SPACE_ID) {
+        rest.spaceId = spaceId;
       }
 
       // try to store in package.json
@@ -124,6 +129,7 @@ program
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are stored')
   .option('-v, --verbose', 'Verbosity')
+  .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
   .option('--bail', 'Abort execution after first failed migration (default: true)', true)
   .option('--no-bail', 'Ignore failed migrations')
   .description('Execute all unexecuted migrations available.')
@@ -150,6 +156,7 @@ program
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-v, --verbose', 'Verbosity')
+  .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
   .description('Execute a single migration.')
   .action(
     actionRunner(async (file, options) => {
@@ -211,11 +218,12 @@ program
   .option('--create', 'Create new contentful environment')
   .option('--remove', 'Delete contentful environment')
   .option('--reset', 'Reset contentful environment')
+  .option('--source-environment-id <environment-id>', 'Set the source environment to clone new environment from')
   .description('Add or remove a contentful environment for migrations')
   .action(
     actionRunner(async (environmentId, options) => {
       const { remove, create, reset } = options;
-      const config = await getConfig(parseArgs(options || {}));
+      const config = await getConfig(parseArgs({ ...(options || {}), environmentId }));
       const verified = await askMissing(config);
 
       if (create) {
@@ -256,13 +264,14 @@ program
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-c, --content-type <content-type>', 'Specify content-type')
   .option('-v, --verbose', 'Verbosity')
+  .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
   .option('--diff', 'Manually choose skip/overwrite for every conflict')
   .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
   .description('Transfer content from source environment to destination environment')
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askMissing(config);
+      const verified = await askMissing({ ...config, environmentId: 'not-used' });
 
       // run migrations on destination environment
       await transferContent({

@@ -30,40 +30,39 @@
     "content-type"
   ],
   "dependencies": {
-    "@contentful/rich-text-plain-text-renderer": "^14.1.2",
-    "array.prototype.flatmap": "^1.2.4",
+    "@contentful/rich-text-plain-text-renderer": "^15.5.1",
+    "array.prototype.flatmap": "^1.2.5",
     "ascii-tree": "^0.3.0",
     "chalk": "^4.1.2",
     "cli-progress": "^3.9.1",
-    "commander": "^7.2.0",
+    "commander": "^8.3.0",
     "common-tags": "^1.8.0",
     "contentful-cli": "^1.8.23",
     "contentful-import": "^8.2.22",
     "contentful-management": "^7.32.0",
     "contentful-migration": "^4.3.0",
-    "cosmiconfig": "^7.0.0",
+    "cosmiconfig": "^7.0.1",
     "deep-diff": "^1.0.2",
     "diff": "^5.0.0",
     "dotenv": "^10.0.0",
     "fs-extra": "^10.0.0",
-    "git-branch": "^2.0.1",
     "globby": "^11.0.3",
-    "inquirer": "^8.1.2",
+    "inquirer": "^8.2.0",
     "markdown-table": "^2.0.0",
     "merge-options": "^3.0.4",
     "mustache": "^4.2.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.0.0",
     "node-object-hash": "^2.3.10",
     "pkg-up": "^3.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^6.0.0",
-    "lint-staged": "^11.1.2",
-    "prettier": "^2.3.2"
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.4.1"
   },
   "publishConfig": {
     "access": "public"
@@ -107,5 +106,11 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "migrations": {
+    "spaceId": "89na9aswdzfj",
+    "storage": "content",
+    "migrationContentTypeId": "contentful-migrations",
+    "directory": "migrations"
   }
 }

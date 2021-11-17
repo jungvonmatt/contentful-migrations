@@ -45,5 +45,6 @@ migrations.config.js
 # Temporary folders
 tmp/
 temp/
+migrations/
 
 # End of https://www.gitignore.io/api/node
