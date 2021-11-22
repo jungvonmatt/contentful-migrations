@@ -224,7 +224,7 @@ program
     actionRunner(async (environmentId, options) => {
       const { remove, create, reset } = options;
       const config = await getConfig(parseArgs({ ...(options || {}), environmentId }));
-      const verified = await askMissingaskMissing(config, ['accessToken', 'spaceId', 'environmentId']);
+      const verified = await askMissing(config, ['accessToken', 'spaceId', 'environmentId']);
 
       if (create) {
         return createEnvironment(environmentId, verified);

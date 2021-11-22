@@ -48,7 +48,7 @@
     "fs-extra": "^10.0.0",
     "globby": "^11.0.3",
     "inquirer": "^8.2.0",
-    "markdown-table": "^2.0.0",
+    "markdown-table": "^3.0.1",
     "merge-options": "^3.0.4",
     "mustache": "^4.2.0",
     "node-fetch": "^3.0.0",
