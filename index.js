@@ -4,7 +4,6 @@
 /* eslint-env node */
 const fs = require('fs-extra');
 const path = require('path');
-const pkgUp = require('pkg-up');
 const chalk = require('chalk');
 const { Command } = require('commander');
 
@@ -79,6 +78,8 @@ program
       }
 
       // try to store in package.json
+
+      const {pkgUp} = await import('pkg-up');
       const localPkg = await pkgUp();
       if (localPkg) {
         const packageJson = await fs.readJson(localPkg);
