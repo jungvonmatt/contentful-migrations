@@ -53,8 +53,9 @@
     "mustache": "^4.2.0",
     "node-fetch": "^3.1.0",
     "node-object-hash": "^2.3.10",
+    "pkg-up": "^4.0.0",
     "prettier": "^2.4.1",
-    "pkg-up": "^4.0.0"
+    "read-pkg-up": "^9.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
