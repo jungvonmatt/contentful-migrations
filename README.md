@@ -39,19 +39,30 @@ This initializes migrations and stores the config values in the `package.json` o
 <br/>
 <br/>
 
+## Showing help
+
+Whenever you get stuck, you can output the help to your terminal:
+
+```bash
+npx migrations help
+
+# Help for a specific command
+npx migrations help <command>
+```
+
 ## Handling contentful environments
 
 It is recommended that you develop and test your migrations in a separate environment before executing them on production content. You can handle environments using the `environment` command:
 
 ```bash
 # Add a new environment and activate it for API usage
-npx migrations environment <environment-id> --create
+npx migrations environment <environment-id> --create [--source-environment-id <source-environment-id>]
 
 # Remove an environment
-npx migrations environment <environment-id> --remove
+npx migrations environment <environment-id> --remove [--source-environment-id <source-environment-id>]
 
 # Reset an environment
-npx migrations environment <environment-id> --reset
+npx migrations environment <environment-id> --reset [--source-environment-id <source-environment-id>]
 ```
 
 ## Generating blank migrations
