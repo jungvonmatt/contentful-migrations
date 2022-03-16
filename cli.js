@@ -39,8 +39,8 @@ const errorHandler = (error, log) => {
   if (log) {
     const { errors, message } = error;
     console.error(chalk.red('\nError:'), message);
-    (errors || []).forEach((error) => {
-      console.error(chalk.red('Error:'), error.message);
+    (errors || []).forEach((err) => {
+      console.error(chalk.red('Error:'), err.message);
     });
   }
   process.exit(1);
