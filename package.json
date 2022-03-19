@@ -5,11 +5,13 @@
   "main": "index.js",
   "files": [
     "index.js",
+    "cli.js",
     "lib"
   ],
+  "typings": "index.d.ts",
   "bin": {
-    "contentful-migrations": "index.js",
-    "migrations": "index.js"
+    "contentful-migrations": "cli.js",
+    "migrations": "cli.js"
   },
   "scripts": {
     "test": "npm run lint",
