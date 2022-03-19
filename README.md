@@ -168,6 +168,32 @@ npx migrations doc -e <environment> -p <path/to/docs>
 `--template`: Use a custom template for docs. `.js` with default export or `.mustache` is allowed<br/>
 `--extension`: Use a custom file extension (default is `.md`)<br/>
 
+
+## Migration helpers
+We provide you with a few smaller migration helpers. There aren't many at the moment, but there may be more in the future.
+
+To use the helpers you just need to wrap your migration with the provided `withHelpers` function which makes the helpers available as 3rd parameter
+in your migration function:
+
+```js
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
+
+module.exports = withHelpers(async (migration, context, helpers) => {
+  // Get all locales
+  await helpers.locale.getLocales();
+  // Get default locale
+  await helpers.locale.getDefaultLocale();
+
+  // Add or remove values from "linkContentType" validations without affecting the other elements in the array
+  await helpers.validation.addLinkContentTypeValues('contentTypeId', 'fieldId', ['value']);
+  await helpers.validation.removeLinkContentTypeValues('contentTypeId', 'fieldId', ['value']);
+
+  // Add or remove values from "in" validations without affecting the other elements in the array
+  await helpers.validation.addInValues('contentTypeId', 'fieldId', ['value']);
+  await helpers.validation.removeInValues('contentTypeId', 'fieldId', ['value']);
+});
+```
+
 ## Can I contribute?
 
 Of course. We appreciate all of our [contributors](https://github.com/jungvonmatt/contentful-migrations/graphs/contributors) and
