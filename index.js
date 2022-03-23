@@ -11,16 +11,16 @@
  * });
  *
  */
- const { getValidationHelper } = require('./lib/helpers/validation');
- const { getLocaleHelper } = require('./lib/helpers/locale');
+ const { getValidationHelpers } = require('./lib/helpers/validation');
+ const { getLocaleHelpers } = require('./lib/helpers/locale');
 
  // Export wrapper
  module.exports.withHelpers = (cb) => (migration, context) => {
-   const locale = getLocaleHelper(migration, context);
-   const validation = getValidationHelper(migration, context);
+   const locale = getLocaleHelpers(migration, context);
+   const validation = getValidationHelpers(migration, context);
 
    return cb(migration, context, { locale, validation });
  };
 
- module.exports.getValidationHelper = getValidationHelper;
- module.exports.getLocaleHelper = getLocaleHelper;
+ module.exports.getValidationHelpers = getValidationHelpers;
+ module.exports.getLocaleHelpers = getLocaleHelpers;

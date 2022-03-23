@@ -4,6 +4,7 @@
   "description": "Helper to handle migrations in contentful",
   "main": "index.js",
   "files": [
+    "index.d.ts",
     "index.js",
     "cli.js",
     "lib"
