@@ -1,6 +1,6 @@
 {
   "name": "@jungvonmatt/contentful-migrations",
-  "version": "5.2.1",
+  "version": "5.2.2",
   "description": "Helper to handle migrations in contentful",
   "main": "index.js",
   "files": [
