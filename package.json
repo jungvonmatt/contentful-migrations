@@ -78,6 +78,7 @@
     "printWidth": 120
   },
   "eslintConfig": {
+    "ignorePatterns": ["**/*.d.ts"],
     "plugins": [
       "prettier"
     ],
