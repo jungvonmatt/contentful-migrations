@@ -15,7 +15,7 @@
     "migrations": "cli.js"
   },
   "scripts": {
-    "test": "jest && npm run lint",
+    "test": "jest --coverage && npm run lint",
     "lint": "eslint .  --ext .js,.ts,.tsx --ignore-path .gitignore",
     "fix-lint": "npm run lint -- --fix"
   },
