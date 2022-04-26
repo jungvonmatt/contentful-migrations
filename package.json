@@ -15,8 +15,9 @@
     "migrations": "cli.js"
   },
   "scripts": {
-    "test": "npm run lint",
-    "lint": "eslint .  --ext .js,.ts,.tsx --ignore-path .gitignore"
+    "test": "jest && npm run lint",
+    "lint": "eslint .  --ext .js,.ts,.tsx --ignore-path .gitignore",
+    "fix-lint": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",
@@ -61,11 +62,12 @@
     "read-pkg-up": "^9.0.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "@babel/eslint-parser": "^7.17.0",
     "eslint": "^8.3.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
+    "jest": "^27.5.1",
     "lint-staged": "^12.1.2"
   },
   "publishConfig": {
@@ -85,8 +87,9 @@
     "extends": [
       "prettier"
     ],
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
+      "requireConfigFile": false,
       "allowImportExportEverywhere": true,
       "ecmaFeatures": {
         "ecmaVersion": 2017,
@@ -104,6 +107,42 @@
     ],
     "*.md": [
       "prettier --write"
+    ]
+  },
+  "jest": {
+    "coverageDirectory": "<rootDir>/__coverage__/",
+    "collectCoverageFrom": [
+      "<rootDir>/lib/*/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 85,
+        "branches": 80,
+        "functions": 80,
+        "lines": 85
+      },
+      "**/*": {
+        "statements": 75,
+        "branches": 70,
+        "functions": 70,
+        "lines": 75
+      }
+    },
+    "roots": [
+      "<rootDir>/lib/"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "testRegex": "/lib/.*\\.test.js$",
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "globals": {
+      "DEVELOPMENT": false
+    },
+    "reporters": [
+      "default"
     ]
   },
   "husky": {

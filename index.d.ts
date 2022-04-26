@@ -1,4 +1,5 @@
-import type Migration, { MigrationContext, MigrationFunction } from "contentful-migration";
+import type Migration from "contentful-migration";
+import type { MigrationContext, MigrationFunction } from "contentful-migration";
 import type { LocaleHelpers } from "./lib/helpers/locale";
 import type { ValidationHelpers } from "./lib/helpers/validation";
 
