@@ -184,13 +184,25 @@ module.exports = withHelpers(async (migration, context, helpers) => {
   // Get default locale
   await helpers.locale.getDefaultLocale();
 
-  // Add or remove values from "linkContentType" validations without affecting the other elements in the array
-  await helpers.validation.addLinkContentTypeValues('contentTypeId', 'fieldId', ['value']);
-  await helpers.validation.removeLinkContentTypeValues('contentTypeId', 'fieldId', ['value']);
+  // Add or remove values from "linkContentType" validations without knowing all the other elements in the array
+  await helpers.validation.addLinkContentTypeValues('contentTypeId', 'fieldId', ['some-content-type']);
+  await helpers.validation.removeLinkContentTypeValues('contentTypeId', 'fieldId', ['some-content-type']);
+  await helpers.validation.modifyLinkContentTypeValues('contentTypeId', 'fieldId', (existing) => {
+    const result = existing.filter((contentType) => !contentType.startsWith('a-')); // remove some by prefix
+    result.push('t-test'); // and add one
+    return result; // possible duplicate values are removed afterwards
+  });
 
-  // Add or remove values from "in" validations without affecting the other elements in the array
-  await helpers.validation.addInValues('contentTypeId', 'fieldId', ['value']);
+  // Add or remove values from "in" validations without knowing all the other elements in the array
+  await helpers.validation.addInValues('contentTypeId', 'fieldId', ['value']); // add at the end
+  await helpers.validation.addInValues('contentTypeId', 'fieldId', ['value'], { mode: 'sorted'}); // add and sort
   await helpers.validation.removeInValues('contentTypeId', 'fieldId', ['value']);
+  await helpers.validation.modifyInValues('contentTypeId', 'fieldId', (existing) => {
+    const result = existing.filter((value) => value.startsWith('prefix')); // keep values with prefix
+    result.push('other'); // and add one
+    return result; // possible duplicate values are removed afterwards
+  });
+
 });
 ```
 
