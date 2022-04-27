@@ -15,7 +15,7 @@
     "migrations": "cli.js"
   },
   "scripts": {
-    "test": "jest && npm run lint",
+    "test": "jest --coverage && npm run lint",
     "lint": "eslint .  --ext .js,.ts,.tsx --ignore-path .gitignore",
     "fix-lint": "npm run lint -- --fix"
   },
@@ -68,6 +68,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
+    "jest-sonar-reporter": "^2.0.0",
     "lint-staged": "^12.1.2"
   },
   "publishConfig": {
@@ -78,6 +79,9 @@
     "printWidth": 120
   },
   "eslintConfig": {
+    "ignorePatterns": [
+      "**/*.d.ts"
+    ],
     "plugins": [
       "prettier"
     ],
@@ -110,24 +114,11 @@
     ]
   },
   "jest": {
+    "testResultsProcessor": "jest-sonar-reporter",
     "coverageDirectory": "<rootDir>/__coverage__/",
     "collectCoverageFrom": [
       "<rootDir>/lib/*/**"
     ],
-    "coverageThreshold": {
-      "global": {
-        "statements": 85,
-        "branches": 80,
-        "functions": 80,
-        "lines": 85
-      },
-      "**/*": {
-        "statements": 75,
-        "branches": 70,
-        "functions": 70,
-        "lines": 75
-      }
-    },
     "roots": [
       "<rootDir>/lib/"
     ],
@@ -154,5 +145,10 @@
     "storage": "content",
     "migrationContentTypeId": "contentful-migrations",
     "directory": "migrations"
+  },
+  "jestSonar": {
+    "reportPath": "__coverage__",
+    "reportFile": "test-report.xml",
+    "indent": 2
   }
 }
