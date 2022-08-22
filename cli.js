@@ -99,7 +99,7 @@ program
   .option('-c, --content-type <content-type...>', 'Specify content-types')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('-v, --verbose', 'Verbosity')
-  .description('Generated new Contentful migration from content type')
+  .description('Generate a new Contentful migration from content type')
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
@@ -114,7 +114,7 @@ program
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('-v, --verbose', 'Verbosity')
-  .description('Generated new Contentful migration')
+  .description('Generate a new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
