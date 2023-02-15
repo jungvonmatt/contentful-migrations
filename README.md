@@ -215,17 +215,18 @@ module.exports = withHelpers(async (migration, context, helpers) => {
 });
 ```
 
-## Contributors
-<a href="https://github.com/jungvonmatt/contentful-migrations/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=jungvonmatt/contentful-migrations" />
-</a>
-
-
 ## Can I contribute?
 
 Of course. We appreciate all of our [contributors](https://github.com/jungvonmatt/contentful-migrations/graphs/contributors) and
 welcome contributions to improve the project further. If you're uncertain whether an addition should be made, feel
 free to open up an issue and we can discuss it.
+
+
+
+## Contributors
+<a href="https://github.com/jungvonmatt/contentful-migrations/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=jungvonmatt/contentful-migrations" />
+</a>
 
 [npm-url]: https://www.npmjs.com/package/@jungvonmatt/contentful-migrations
 [npm-image]: https://img.shields.io/npm/v/@jungvonmatt/contentful-migrations.svg
