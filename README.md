@@ -24,6 +24,14 @@ This initializes migrations and stores the config values in the `package.json` o
 
 **You can also use this command if you want to switch from managing migrations in Contentful with a single Tag to the recommended approach using a dedicated Content type for migrations**
 
+#### Configuration files
+
+The default configuration file name is `.migrationsrc`. But since we use [cosmiconfig](https://github.com/davidtheclark/cosmiconfig#cosmiconfig) you can also use the other supported config file formats and name patterns like `migrationsrc.json` or `migrations.config.js`.
+
+You can also use any config file path by adding the `-f <path/to/confg>` or `--config-file <path/to/config>` command line argument. The extensions `.json`, `.yaml`, `.yml`, `.js`, or `.cjs` are supported.
+
+By specifying the config file path you can use multiple config files for different environments or spaces in your project.
+
 #### Configuration values
 
 | Name                   | Default                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
