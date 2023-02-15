@@ -215,6 +215,12 @@ module.exports = withHelpers(async (migration, context, helpers) => {
 });
 ```
 
+## Contributors
+<a href="https://github.com/jungvonmatt/contentful-migrations/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=jungvonmatt/contentful-migrations" />
+</a>
+
+
 ## Can I contribute?
 
 Of course. We appreciate all of our [contributors](https://github.com/jungvonmatt/contentful-migrations/graphs/contributors) and
