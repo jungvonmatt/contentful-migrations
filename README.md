@@ -152,7 +152,7 @@ You can do this using the `content` command.
 ```bash
 # Transfer content from one Contentful environment to another.
 # This command will not overwrite existing content unless you say so.
-npx migrations content --source-env <environment>  --dest-env <environment>
+npx migrations content --source-environment-id <environment>  --dest-environment-id <environment>
 ```
 
 ##### Optional Arguments
