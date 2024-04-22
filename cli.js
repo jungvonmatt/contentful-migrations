@@ -4,7 +4,7 @@
 /* eslint-env node */
 const fs = require('fs-extra');
 const path = require('path');
-const chalk = require('chalk');
+const pc = require('picocolors');
 const { Command } = require('commander');
 
 const { initializeContentModel, migrateToContentStorage, migrateToTagStorage } = require('./lib/backend');
@@ -39,9 +39,9 @@ const parseArgs = (cmd) => {
 const errorHandler = (error, log) => {
   if (log) {
     const { errors, message } = error;
-    console.error(chalk.red('\nError:'), message);
+    console.error(pc.red('\nError:'), message);
     (errors || []).forEach((err) => {
-      console.error(chalk.red('Error:'), err.message);
+      console.error(pc.red('Error:'), err.message);
     });
   }
   process.exit(1);
@@ -144,10 +144,7 @@ program
 
       const { missingStorageModel } = verified;
       if (missingStorageModel) {
-        console.error(
-          chalk.red('\nError:'),
-          `Missing migration content type. Run ${chalk.cyan('npx migrations init')}`
-        );
+        console.error(pc.red('\nError:'), `Missing migration content type. Run ${pc.cyan('npx migrations init')}`);
         process.exit(1);
       }
 
@@ -170,10 +167,7 @@ program
 
       const { missingStorageModel } = verified;
       if (missingStorageModel) {
-        console.error(
-          chalk.red('\nError:'),
-          `Missing migration content type. Run ${chalk.cyan('npx migrations init')}`
-        );
+        console.error(pc.red('\nError:'), `Missing migration content type. Run ${pc.cyan('npx migrations init')}`);
         process.exit(1);
       }
 
@@ -198,10 +192,7 @@ program
 
       const { missingStorageModel } = verified;
       if (missingStorageModel) {
-        console.error(
-          chalk.red('\nError:'),
-          `Missing migration content type. Run ${chalk.cyan('npx migrations init')}`
-        );
+        console.error(pc.red('\nError:'), `Missing migration content type. Run ${pc.cyan('npx migrations init')}`);
         process.exit(1);
       }
 
