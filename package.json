@@ -40,7 +40,7 @@
     "cli-progress": "^3.11.2",
     "commander": "^8.3.0",
     "common-tags": "^1.8.2",
-    "contentful-cli": "^3.3.6",
+    "contentful-cli": "^3.3.13",
     "contentful-import": "^9.4.58",
     "contentful-management": "^11.31.7",
     "contentful-migration": "^4.17.2",
