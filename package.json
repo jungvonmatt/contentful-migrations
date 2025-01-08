@@ -43,7 +43,7 @@
     "contentful-cli": "^3.3.13",
     "contentful-import": "^9.4.58",
     "contentful-management": "^11.31.7",
-    "contentful-migration": "^4.17.2",
+    "contentful-migration": "^4.26.3",
     "cosmiconfig": "^8.0.0",
     "deep-diff": "^1.0.2",
     "diff": "^5.1.0",
