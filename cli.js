@@ -59,6 +59,7 @@ const program = new Command();
 program.version(pkg.version);
 program
   .command('init')
+  .option('--host <host>', 'Management API host')
   .description('Initialize contentful-migrations')
   .action(
     actionRunner(async (cmd) => {
@@ -99,8 +100,9 @@ program
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-c, --content-type <content-type...>', 'Specify content-types')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
-  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .description('Generate a new Contentful migration from content type')
   .action(
     actionRunner(async (cmd) => {
@@ -115,8 +117,9 @@ program
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
-  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .description('Generate a new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -131,9 +134,10 @@ program
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are stored')
-  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
   .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--bail', 'Abort execution after first failed migration (default: true)', true)
   .option('--no-bail', 'Ignore failed migrations')
   .description('Execute all unexecuted migrations available.')
@@ -156,9 +160,10 @@ program
   .command('execute <file>')
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
-  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
   .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .description('Execute a single migration.')
   .action(
     actionRunner(async (file, options) => {
@@ -179,8 +184,9 @@ program
   .command('version <file>')
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
-  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--add', 'Mark migration as migrated')
   .option('--remove', 'Delete migration entry in Contentful')
   .description('Manually mark a migration as migrated or not. (Only available with the Content-model storage)')
@@ -211,8 +217,9 @@ program
 program
   .command('environment <environment-id>')
   .option('-s, --space-id <space-id>', 'Contentful space id')
-  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--create', 'Create new contentful environment')
   .option('--remove', 'Delete contentful environment')
   .option('--reset', 'Reset contentful environment')
@@ -243,9 +250,10 @@ program
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('-p, --path <path/to/docs>', 'Change the path where the docs are stored')
-  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
   .option('-t, --template <path/to/template>', 'Use custom template for docs')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--extension <file-extension>', 'Use custom file extension (default is `md`)')
   .description('Generate offline docs from content-types')
   .action(
@@ -262,9 +270,10 @@ program
   .requiredOption('--dest-environment-id <environment-id>', 'Set the Contentful destination environment (to)')
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('-c, --content-type <content-type>', 'Specify content-type')
-  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
   .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--diff', 'Manually choose skip/overwrite for every conflict')
   .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
   .description('Transfer content from source environment to destination environment')
