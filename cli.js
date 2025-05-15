@@ -23,7 +23,7 @@ const parseArgs = (cmd) => {
   const directory = cmd.path || parent.path;
   return {
     ...cmd,
-    configFile: cmd.configFile,
+    configFile: cmd.config,
     environment: cmd.env || parent.env,
     directory: directory ? path.resolve(directory) : undefined,
     sourceEnvironmentId: cmd.sourceEnvironmentId || parent.sourceEnvironmentId,
@@ -107,7 +107,7 @@ program
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askMissing(config);
+      const verified = await askMissing(config, ['accessToken', 'spaceId', 'environmentId', 'directory']);
       await fetchMigration({ ...verified, contentType: cmd.contentType });
     })
   );
@@ -124,7 +124,7 @@ program
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askMissing(config);
+      const verified = await askMissing(config, ['accessToken', 'spaceId', 'environmentId', 'directory']);
       await createMigration(verified);
     })
   );
