@@ -28,7 +28,7 @@ This initializes migrations and stores the config values in the `package.json` o
 
 The default configuration file name is `.migrationsrc`. But since we use [cosmiconfig](https://github.com/davidtheclark/cosmiconfig#cosmiconfig) you can also use the other supported config file formats and name patterns like `migrationsrc.json` or `migrations.config.js`.
 
-You can also use any config file path by adding the `-f <path/to/confg>` or `--config-file <path/to/config>` command line argument. The extensions `.json`, `.yaml`, `.yml`, `.js`, or `.cjs` are supported.
+You can also use any config file path by adding the `-f <path/to/confg>` or `--config-file <path/to/config>` command line argument. The extensions `.json`, `.yaml`, `.yml`, `.js`, `.ts`, `.mjs`, or `.cjs` are supported.
 
 By specifying the config file path you can use multiple config files for different environments or spaces in your project.
 
