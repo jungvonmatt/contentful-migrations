@@ -60,8 +60,9 @@ program.version(pkg.version);
 program
   .command('init')
   .option('-s, --space-id <space-id>', 'Contentful space id')
-  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
+  .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
   .description('Initialize contentful-migrations')
   .action(
     actionRunner(async (cmd) => {
@@ -117,6 +118,7 @@ program
   .option('-v, --verbose', 'Verbosity')
   .option('--host <host>', 'Management API host')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
+  .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
   .description('Generate a new Contentful migration from content type')
   .action(
     actionRunner(async (cmd) => {
@@ -138,6 +140,7 @@ program
   .option('-v, --verbose', 'Verbosity')
   .option('--host <host>', 'Management API host')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
+  .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
   .description('Generate a new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -160,6 +163,7 @@ program
   .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
   .option('--host <host>', 'Management API host')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
+  .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
   .option('--bail', 'Abort execution after first failed migration (default: true)', true)
   .option('--no-bail', 'Ignore failed migrations')
   .description('Execute all unexecuted migrations available.')
@@ -193,6 +197,7 @@ program
   .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
   .option('--host <host>', 'Management API host')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
+  .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
   .description('Execute a single migration.')
   .action(
     actionRunner(async (file, options) => {
@@ -224,6 +229,7 @@ program
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--add', 'Mark migration as migrated')
   .option('--remove', 'Delete migration entry in Contentful')
+  .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
   .description('Manually mark a migration as migrated or not. (Only available with the Content-model storage)')
   .action(
     actionRunner(async (file, options) => {
@@ -266,6 +272,7 @@ program
   .option('--remove', 'Delete contentful environment')
   .option('--reset', 'Reset contentful environment')
   .option('--source-environment-id <environment-id>', 'Set the source environment to clone new environment from')
+  .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
   .description('Add or remove a contentful environment for migrations')
   .action(
     actionRunner(async (environmentId, options) => {
@@ -300,6 +307,7 @@ program
   .option('--host <host>', 'Management API host')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--extension <file-extension>', 'Use custom file extension (default is `md`)')
+  .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
   .description('Generate offline docs from content-types')
   .action(
     actionRunner(async (cmd) => {
@@ -321,6 +329,7 @@ program
   .option('--diff', 'Manually choose skip/overwrite for every conflict')
   .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
   .description('Transfer content from source environment to destination environment')
+  .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
   .action(
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}), ['managementToken', 'spaceId', 'storage']);
