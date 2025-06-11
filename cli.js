@@ -13,7 +13,7 @@ const { versionDelete, versionAdd } = require('./lib/version');
 const { transferContent } = require('./lib/content');
 const { createOfflineDocs } = require('./lib/doc');
 const { createEnvironment, removeEnvironment, resetEnvironment } = require('./lib/environment');
-const { getConfig, askAll, askMissing, STORAGE_CONTENT, STORAGE_TAG } = require('./lib/config');
+const { getConfig, confirm, STORAGE_CONTENT, STORAGE_TAG } = require('./lib/config');
 const pkg = require('./package.json');
 
 require('dotenv').config();
@@ -59,37 +59,51 @@ const program = new Command();
 program.version(pkg.version);
 program
   .command('init')
+  .option('-s, --space-id <space-id>', 'Contentful space id')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--host <host>', 'Management API host')
   .description('Initialize contentful-migrations')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askAll(config);
-      const { managementToken, accessToken, environmentId, spaceId, ...rest } = verified;
+      const config = await getConfig(parseArgs(cmd || {}), [
+        'managementToken',
+        'spaceId',
+        'environmentId',
+        'storage',
+        'fieldId',
+        'migrationContentTypeId',
+        'directory',
+      ]);
 
-      if (verified.storage === STORAGE_CONTENT) {
-        await initializeContentModel({ ...config, ...verified });
-        await migrateToContentStorage({ ...config, ...verified });
+      const { managementToken, accessToken, environmentId, spaceId, ...rest } = config;
+
+      if (config.storage === STORAGE_CONTENT) {
+        await initializeContentModel(config);
+        await migrateToContentStorage(config);
       }
-      if (verified.storage === STORAGE_TAG) {
-        await migrateToTagStorage({ ...config, ...verified });
+      if (config.storage === STORAGE_TAG) {
+        await migrateToTagStorage(config);
       }
 
       if (!process.env.CONTENTFUL_SPACE_ID) {
         rest.spaceId = spaceId;
       }
 
-      // try to store in package.json
-      const { pkgUp } = await import('pkg-up');
-      const localPkg = await pkgUp();
-      if (localPkg) {
-        const packageJson = await fs.readJson(localPkg);
-        rest.directory = path.relative(path.dirname(localPkg), rest.directory);
-        packageJson.migrations = rest;
-        await fs.outputJson(localPkg, packageJson, { spaces: 2 });
-      } else {
-        // store in .migrationsrc if no package.json is available
-        await fs.outputJson(path.join(process.cwd(), '.migrationsrc'), rest, { spaces: 2 });
+      const storeConfig = await confirm({ message: 'Do you want to store the configuration?' });
+
+      if (storeConfig) {
+        // try to store in package.json
+        const { pkgUp } = await import('pkg-up');
+        const localPkg = await pkgUp();
+        if (localPkg) {
+          const packageJson = await fs.readJson(localPkg);
+          rest.directory = path.relative(path.dirname(localPkg), rest.directory);
+          packageJson.migrations = rest;
+          await fs.outputJson(localPkg, packageJson, { spaces: 2 });
+        } else {
+          // store in .migrationsrc if no package.json is available
+          await fs.outputJson(path.join(process.cwd(), '.migrationsrc'), rest, { spaces: 2 });
+        }
       }
     })
   );
@@ -106,9 +120,13 @@ program
   .description('Generate a new Contentful migration from content type')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askMissing(config, ['accessToken', 'spaceId', 'environmentId', 'directory']);
-      await fetchMigration({ ...verified, contentType: cmd.contentType });
+      const config = await getConfig(parseArgs(cmd || {}), [
+        'managementToken',
+        'spaceId',
+        'environmentId',
+        'directory',
+      ]);
+      await fetchMigration({ ...config, contentType: cmd.contentType });
     })
   );
 
@@ -123,9 +141,13 @@ program
   .description('Generate a new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askMissing(config, ['accessToken', 'spaceId', 'environmentId', 'directory']);
-      await createMigration(verified);
+      const config = await getConfig(parseArgs(cmd || {}), [
+        'managementToken',
+        'spaceId',
+        'environmentId',
+        'directory',
+      ]);
+      await createMigration(config);
     })
   );
 
@@ -143,16 +165,23 @@ program
   .description('Execute all unexecuted migrations available.')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askMissing(config);
+      const config = await getConfig(parseArgs(cmd || {}), [
+        'managementToken',
+        'spaceId',
+        'environmentId',
+        'storage',
+        'fieldId',
+        'migrationContentTypeId',
+        'directory',
+      ]);
 
-      const { missingStorageModel } = verified;
+      const { missingStorageModel } = config;
       if (missingStorageModel) {
         console.error(pc.red('\nError:'), `Missing migration content type. Run ${pc.cyan('npx migrations init')}`);
         process.exit(1);
       }
 
-      await runMigrations(verified);
+      await runMigrations(config);
     }, false)
   );
 
@@ -167,16 +196,22 @@ program
   .description('Execute a single migration.')
   .action(
     actionRunner(async (file, options) => {
-      const config = await getConfig(parseArgs(options || {}));
-      const verified = await askMissing(config);
+      const config = await getConfig(parseArgs(cmd || {}), [
+        'managementToken',
+        'spaceId',
+        'environmentId',
+        'storage',
+        'fieldId',
+        'migrationContentTypeId',
+        'directory',
+      ]);
 
-      const { missingStorageModel } = verified;
+      const { missingStorageModel } = config;
       if (missingStorageModel) {
         console.error(pc.red('\nError:'), `Missing migration content type. Run ${pc.cyan('npx migrations init')}`);
         process.exit(1);
       }
-
-      await executeMigration(path.resolve(file), verified);
+      await executeMigration(path.resolve(file), config);
     }, false)
   );
 
@@ -193,23 +228,30 @@ program
   .action(
     actionRunner(async (file, options) => {
       const { remove, add } = options;
-      const config = await getConfig(parseArgs(options || {}));
-      const verified = await askMissing(config);
+      const config = await getConfig(parseArgs(cmd || {}), [
+        'managementToken',
+        'spaceId',
+        'environmentId',
+        'storage',
+        'fieldId',
+        'migrationContentTypeId',
+        'directory',
+      ]);
 
-      const { missingStorageModel } = verified;
+      const { missingStorageModel } = config;
       if (missingStorageModel) {
         console.error(pc.red('\nError:'), `Missing migration content type. Run ${pc.cyan('npx migrations init')}`);
         process.exit(1);
       }
 
-      const { storage } = verified || {};
+      const { storage } = config || {};
       if (storage === STORAGE_TAG) {
         throw new Error('The version command is not available for the "tag" storage');
       }
       if (remove) {
-        await versionDelete(file, verified);
+        await versionDelete(file, config);
       } else if (add) {
-        await versionAdd(file, verified);
+        await versionAdd(file, config);
       }
     }, true)
   );
@@ -228,19 +270,22 @@ program
   .action(
     actionRunner(async (environmentId, options) => {
       const { remove, create, reset } = options;
-      const config = await getConfig(parseArgs({ ...(options || {}), environmentId }));
-      const verified = await askMissing(config, ['accessToken', 'spaceId', 'environmentId']);
+      const config = await getConfig(parseArgs({ ...(options || {}), environmentId }), [
+        'managementToken',
+        'spaceId',
+        'environmentId',
+      ]);
 
       if (create) {
-        return createEnvironment(environmentId, verified);
+        return createEnvironment(environmentId, config);
       }
 
       if (remove) {
-        return removeEnvironment(environmentId, verified);
+        return removeEnvironment(environmentId, config);
       }
 
       if (reset) {
-        return resetEnvironment(environmentId, verified);
+        return resetEnvironment(environmentId, config);
       }
     }, true)
   );
@@ -258,9 +303,8 @@ program
   .description('Generate offline docs from content-types')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askMissing(config, ['accessToken', 'spaceId', 'environmentId']);
-      await createOfflineDocs(verified);
+      const config = await getConfig(parseArgs(cmd || {}), ['managementToken', 'spaceId', 'environmentId']);
+      await createOfflineDocs(config);
     }, true)
   );
 
@@ -279,12 +323,11 @@ program
   .description('Transfer content from source environment to destination environment')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd || {}));
-      const verified = await askMissing({ ...config, environmentId: 'not-used' });
+      const config = await getConfig(parseArgs(cmd || {}), ['managementToken', 'spaceId', 'storage']);
 
       // run migrations on destination environment
       await transferContent({
-        ...verified,
+        ...config,
         contentType: cmd.contentType || '',
         forceOverwrite: cmd.force || false,
         diffConflicts: cmd.diff || false,
