@@ -34,17 +34,20 @@ By specifying the config file path you can use multiple config files for differe
 
 #### Configuration values
 
-| Name                   | Default                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ---------------------- |---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| accessToken            | `undefined`               | Contentful Management Token. Just run `npx contentful login` and you're done.                                                                                                                                                                                                                                                                                                                                                                                                        |
-| spaceId                | `undefined`               | Contentful Space id. Will fallback to `process.env.CONTENTFUL_SPACE_ID` if not set.                                                                                                                                                                                                                                                                                                                                                                                                  |
-| environmentId          | `undefined`               | Contentful Environment id. Will fallback to `process.env.CONTENTFUL_ENVIRONMENT_ID` if not set.<br/>If neither `environmentId` nor `CONTENTFUL_ENVIRONMENT_ID` is available we search for environment whose id matches the current git branch                                                                                                                                                                                                                                        |
-| host                   | `undefined`               | Allows configuring the Contentful CLI for EU usage. Will fallback to the global contentful config in your `.contentfulrc.json` |
-| requestBatchSize       | `undefined`               | The batch size used for loading data from contentful. Contentful uses a default of 100. Use a smaller value when you get `Response size too big` errors (for example caused by very large rich text fields). Be aware that contentful migrations might hide the response size error and only print `The provided space does not exist or you do not have access`                                                                                                                     |
-| storage                | `undefined`               | We need to keep a hint to the executed migrations inside Contentful. You can choose between **content* and **tag**. <br/><br/>**Content** will add a new content type to your Contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
-| fieldId                | `'migration'`             | Id of the tag where the migration version is stored (only used with storage `tag`)                                                                                                                                                                                                                                                                                                                                                                                                   |
-| migrationContentTypeId | `'contentful-migrations'` | Id of the migration content-type (only used with storage `content`)                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| directory              | `'./migrations'`          | Directory where the migration files are stored                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+All configuration values can also be set via environment variables
+
+| Name                    | Environment Variable                       | Default                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------------------- | ------------------------------------------ | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| managementToken         | `CONTENTFUL_MANAGEMENT_TOKEN`              | `undefined`               | Contentful Management Token. Just run `npx contentful login` and you're done.                                                                                                                                                                                                                                                                                                                                                                                                           |
+| accessToken (deprecaed) | -                                          | `undefined`               | Please use `managementToken` instead.                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| spaceId                 | `CONTENTFUL_SPACE_ID`                      | `undefined`               | Contentful Space id. Will fallback to `process.env.CONTENTFUL_SPACE_ID` if not set.                                                                                                                                                                                                                                                                                                                                                                                                     |
+| environmentId           | `CONTENTFUL_ENVIRONMENT_ID`                | `undefined`               | Contentful Environment id. Will fallback to `process.env.CONTENTFUL_ENVIRONMENT_ID` if not set.<br/>If neither `environmentId` nor `CONTENTFUL_ENVIRONMENT_ID` is available we search for environment whose id matches the current git branch                                                                                                                                                                                                                                           |
+| host                    | `CONTENTFUL_HOST`                          | `undefined`               | Allows configuring the Contentful CLI for EU usage. Will fallback to the global contentful config in your `.contentfulrc.json`                                                                                                                                                                                                                                                                                                                                                          |
+| requestBatchSize        | `CONTENTFUL_MIGRATIONS_REQUEST_BATCH_SIZE` | `undefined`               | The batch size used for loading data from contentful. Contentful uses a default of 100. Use a smaller value when you get `Response size too big` errors (for example caused by very large rich text fields). Be aware that contentful migrations might hide the response size error and only print `The provided space does not exist or you do not have access`                                                                                                                        |
+| storage                 | `CONTENTFUL_MIGRATIONS_STORAGE`            | `undefined`               | We need to keep a hint to the executed migrations inside Contentful. You can choose between **content\* and **tag**. <br/><br/>**Content** will add a new content type to your Contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**tag\*\* Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
+| fieldId                 | `'CONTENTFUL_MIGRATIONS_FIELD_ID'`         | `'migration'`             | Id of the tag where the migration version is stored (only used with storage `tag`)                                                                                                                                                                                                                                                                                                                                                                                                      |
+| migrationContentTypeId  | `CONTENTFUL_MIGRATIONS_CONTENT_TYPE_ID`    | `'contentful-migrations'` | Id of the migration content-type (only used with storage `content`)                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| directory               | `CONTENTFUL_MIGRATIONS_DIRECTORY`          | `'./migrations'`          | Directory where the migration files are stored                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 <br/>
 <br/>
@@ -87,7 +90,7 @@ npx migrations generate
 
 Sometimes you may not want to start a migration from scratch. You can create a new Content type in the [contentful web app](https://www.contentful.com/help/content-modelling-basics/) and import it using the `fetch` command.
 
-*When you want to use the contentful web app to configure your content types you should do so in a separate environment because the migration will fail if the content-type is already present at the time you run the migration script*
+_When you want to use the contentful web app to configure your content types you should do so in a separate environment because the migration will fail if the content-type is already present at the time you run the migration script_
 
 ```bash
 # Generate migration scripts for all content types from the current environment
@@ -127,7 +130,7 @@ npx migrations execute <path/to/migration.js> -e <environment-id>
 ## Managing the migration versions stored in contentful
 
 Sometimes you may need to manually mark a migration as migrated or not. You can use the `version` command for this.
-*Use caution when using the version command. If you delete a version from the table and then run the migrate command, that migration version will be executed again.*
+_Use caution when using the version command. If you delete a version from the table and then run the migrate command, that migration version will be executed again._
 
 **This command is only available when using the content storage**
 
@@ -178,8 +181,8 @@ npx migrations doc -e <environment> -p <path/to/docs>
 `--template`: Use a custom template for docs. `.js` with default export or `.mustache` is allowed<br/>
 `--extension`: Use a custom file extension (default is `.md`)<br/>
 
-
 ## Migration helpers
+
 We provide you with a few smaller migration helpers. There aren't many at the moment, but there may be more in the future.
 
 To use the helpers you just need to wrap your migration with the provided `withHelpers` function which makes the helpers available as 3rd parameter
@@ -205,14 +208,13 @@ module.exports = withHelpers(async (migration, context, helpers) => {
 
   // Add or remove values from "in" validations without knowing all the other elements in the array
   await helpers.validation.addInValues('contentTypeId', 'fieldId', ['value']); // add at the end
-  await helpers.validation.addInValues('contentTypeId', 'fieldId', ['value'], { mode: 'sorted'}); // add and sort
+  await helpers.validation.addInValues('contentTypeId', 'fieldId', ['value'], { mode: 'sorted' }); // add and sort
   await helpers.validation.removeInValues('contentTypeId', 'fieldId', ['value']);
   await helpers.validation.modifyInValues('contentTypeId', 'fieldId', (existing) => {
     const result = existing.filter((value) => value.startsWith('prefix')); // keep values with prefix
     result.push('other'); // and add one
     return result; // possible duplicate values are removed afterwards
   });
-
 });
 ```
 
@@ -222,9 +224,8 @@ Of course. We appreciate all of our [contributors](https://github.com/jungvonmat
 welcome contributions to improve the project further. If you're uncertain whether an addition should be made, feel
 free to open up an issue and we can discuss it.
 
-
-
 ## Contributors
+
 <a href="https://github.com/jungvonmatt/contentful-migrations/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=jungvonmatt/contentful-migrations" />
 </a>
