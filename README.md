@@ -234,7 +234,7 @@ module.exports = withHelpers(async (migration, context, helpers) => {
     return result; // possible duplicate values are removed afterwards
   });
 
-  // Add or remove embedded ot linked content types for a rich text field without knowing all the allowed content types
+  // Add or remove embedded or linked content types for a rich text field without knowing all the allowed content types
   // The possible node types are 'entry-hyperlink', 'embedded-entry-block' and 'embedded-entry-inline'.
   await helpers.validation.richText.addNodeContentTypeValues('contentTypeId', 'fieldId', ['blockquote']);
   await helpers.validation.richText.removeNodeContentTypeValues('contentTypeId', 'fieldId', ['hyperlink']); // add at the end
