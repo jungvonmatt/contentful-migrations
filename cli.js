@@ -4,7 +4,7 @@
 /* eslint-env node */
 const fs = require('fs-extra');
 const path = require('path');
-const chalk = require('chalk');
+const pc = require('picocolors');
 const { Command } = require('commander');
 
 const { initializeContentModel, migrateToContentStorage, migrateToTagStorage } = require('./lib/backend');
@@ -39,9 +39,9 @@ const parseArgs = (cmd) => {
 const errorHandler = (error, log) => {
   if (log) {
     const { errors, message } = error;
-    console.error(chalk.red('\nError:'), message);
+    console.error(pc.red('\nError:'), message);
     (errors || []).forEach((err) => {
-      console.error(chalk.red('Error:'), err.message);
+      console.error(pc.red('Error:'), err.message);
     });
   }
   process.exit(1);
@@ -59,6 +59,7 @@ const program = new Command();
 program.version(pkg.version);
 program
   .command('init')
+  .option('--host <host>', 'Management API host')
   .description('Initialize contentful-migrations')
   .action(
     actionRunner(async (cmd) => {
@@ -101,6 +102,8 @@ program
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .description('Generate a new Contentful migration from content type')
   .action(
     actionRunner(async (cmd) => {
@@ -117,6 +120,8 @@ program
   .option('-p, --path <path/to/migrations>', 'Change the path where the migrations are saved')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .description('Generate a new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -134,6 +139,8 @@ program
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
   .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--bail', 'Abort execution after first failed migration (default: true)', true)
   .option('--no-bail', 'Ignore failed migrations')
   .description('Execute all unexecuted migrations available.')
@@ -144,10 +151,7 @@ program
 
       const { missingStorageModel } = verified;
       if (missingStorageModel) {
-        console.error(
-          chalk.red('\nError:'),
-          `Missing migration content type. Run ${chalk.cyan('npx migrations init')}`
-        );
+        console.error(pc.red('\nError:'), `Missing migration content type. Run ${pc.cyan('npx migrations init')}`);
         process.exit(1);
       }
 
@@ -162,6 +166,8 @@ program
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
   .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .description('Execute a single migration.')
   .action(
     actionRunner(async (file, options) => {
@@ -170,10 +176,7 @@ program
 
       const { missingStorageModel } = verified;
       if (missingStorageModel) {
-        console.error(
-          chalk.red('\nError:'),
-          `Missing migration content type. Run ${chalk.cyan('npx migrations init')}`
-        );
+        console.error(pc.red('\nError:'), `Missing migration content type. Run ${pc.cyan('npx migrations init')}`);
         process.exit(1);
       }
 
@@ -187,6 +190,8 @@ program
   .option('-e, --environment-id <environment-id>', 'Change the Contentful environment')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--add', 'Mark migration as migrated')
   .option('--remove', 'Delete migration entry in Contentful')
   .description('Manually mark a migration as migrated or not. (Only available with the Content-model storage)')
@@ -198,10 +203,7 @@ program
 
       const { missingStorageModel } = verified;
       if (missingStorageModel) {
-        console.error(
-          chalk.red('\nError:'),
-          `Missing migration content type. Run ${chalk.cyan('npx migrations init')}`
-        );
+        console.error(pc.red('\nError:'), `Missing migration content type. Run ${pc.cyan('npx migrations init')}`);
         process.exit(1);
       }
 
@@ -222,6 +224,8 @@ program
   .option('-s, --space-id <space-id>', 'Contentful space id')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--create', 'Create new contentful environment')
   .option('--remove', 'Delete contentful environment')
   .option('--reset', 'Reset contentful environment')
@@ -255,6 +259,8 @@ program
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
   .option('-t, --template <path/to/template>', 'Use custom template for docs')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--extension <file-extension>', 'Use custom file extension (default is `md`)')
   .description('Generate offline docs from content-types')
   .action(
@@ -274,6 +280,8 @@ program
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('-v, --verbose', 'Verbosity')
   .option('-y, --yes', 'Assume "yes" as answer to all prompts and run non-interactively.')
+  .option('--host <host>', 'Management API host')
+  .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--diff', 'Manually choose skip/overwrite for every conflict')
   .option('--force', 'No manual diffing. Overwrites all conflicting entries/assets')
   .description('Transfer content from source environment to destination environment')

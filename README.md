@@ -39,6 +39,7 @@ By specifying the config file path you can use multiple config files for differe
 | accessToken            | `undefined`               | Contentful Management Token. Just run `npx contentful login` and you're done.                                                                                                                                                                                                                                                                                                                                                                                                        |
 | spaceId                | `undefined`               | Contentful Space id. Will fallback to `process.env.CONTENTFUL_SPACE_ID` if not set.                                                                                                                                                                                                                                                                                                                                                                                                  |
 | environmentId          | `undefined`               | Contentful Environment id. Will fallback to `process.env.CONTENTFUL_ENVIRONMENT_ID` if not set.<br/>If neither `environmentId` nor `CONTENTFUL_ENVIRONMENT_ID` is available we search for environment whose id matches the current git branch                                                                                                                                                                                                                                        |
+| host                   | `undefined`               | Allows configuring the Contentful CLI for EU usage. Will fallback to the global contentful config in your `.contentfulrc.json` |
 | requestBatchSize       | `undefined`               | The batch size used for loading data from contentful. Contentful uses a default of 100. Use a smaller value when you get `Response size too big` errors (for example caused by very large rich text fields). Be aware that contentful migrations might hide the response size error and only print `The provided space does not exist or you do not have access`                                                                                                                     |
 | storage                | `undefined`               | We need to keep a hint to the executed migrations inside Contentful. You can choose between **content* and **tag**. <br/><br/>**Content** will add a new content type to your Contentful environment and stores the state of every migration as content entry (recommended approach) <br/>**tag** Will only store the latest version inside a tag. You need to preserve the right order yourself. When you add a new migration with an older version number it will not be executed. |
 | fieldId                | `'migration'`             | Id of the tag where the migration version is stored (only used with storage `tag`)                                                                                                                                                                                                                                                                                                                                                                                                   |
@@ -152,7 +153,7 @@ You can do this using the `content` command.
 ```bash
 # Transfer content from one Contentful environment to another.
 # This command will not overwrite existing content unless you say so.
-npx migrations content --source-env <environment>  --dest-env <environment>
+npx migrations content --source-environment-id <environment>  --dest-environment-id <environment>
 ```
 
 ##### Optional Arguments
@@ -220,6 +221,13 @@ module.exports = withHelpers(async (migration, context, helpers) => {
 Of course. We appreciate all of our [contributors](https://github.com/jungvonmatt/contentful-migrations/graphs/contributors) and
 welcome contributions to improve the project further. If you're uncertain whether an addition should be made, feel
 free to open up an issue and we can discuss it.
+
+
+
+## Contributors
+<a href="https://github.com/jungvonmatt/contentful-migrations/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=jungvonmatt/contentful-migrations" />
+</a>
 
 [npm-url]: https://www.npmjs.com/package/@jungvonmatt/contentful-migrations
 [npm-image]: https://img.shields.io/npm/v/@jungvonmatt/contentful-migrations.svg
