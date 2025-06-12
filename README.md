@@ -216,7 +216,7 @@ module.exports = withHelpers(async (migration, context, helpers) => {
   // Add or remove enabled marks for a rich text field without knowing all the active marks
   // See: https://github.com/contentful/rich-text/blob/master/packages/rich-text-types/src/marks.ts
   await helpers.validation.richText.addEnabledMarksValues('contentTypeId', 'fieldId', ['bold']);
-  await helpers.validation.richText.removeEnabledMarksValues('contentTypeId', 'fieldId', ['underline']); // add at the end
+  await helpers.validation.richText.removeEnabledMarksValues('contentTypeId', 'fieldId', ['underline']);
   await helpers.validation.richText.modifyEnabledMarksValues('contentTypeId', 'fieldId', (existing) => {
     const result = existing.filter((value) => value !== 'code'); // keep values with prefix
     result.push('italic'); // and add one
@@ -227,7 +227,7 @@ module.exports = withHelpers(async (migration, context, helpers) => {
   // See https://github.com/contentful/rich-text/blob/master/packages/rich-text-types/src/blocks.ts
   // and https://github.com/contentful/rich-text/blob/master/packages/rich-text-types/src/inlines.ts
   await helpers.validation.richText.addEnabledNodeTypeValues('contentTypeId', 'fieldId', ['blockquote']);
-  await helpers.validation.richText.removeEnabledNodeTypeValues('contentTypeId', 'fieldId', ['hyperlink']); // add at the end
+  await helpers.validation.richText.removeEnabledNodeTypeValues('contentTypeId', 'fieldId', ['hyperlink']);
   await helpers.validation.richText.modifyEnabledNodeTypeValues('contentTypeId', 'fieldId', (existing) => {
     const result = existing.filter((value) => !value.startsWith('heading-')); // filter out headings like 'heading-1'
     result.push('quote'); // and add one
@@ -236,11 +236,11 @@ module.exports = withHelpers(async (migration, context, helpers) => {
 
   // Add or remove embedded or linked content types for a rich text field without knowing all the allowed content types
   // The possible node types are 'entry-hyperlink', 'embedded-entry-block' and 'embedded-entry-inline'.
-  await helpers.validation.richText.addNodeContentTypeValues('contentTypeId', 'fieldId', ['blockquote']);
-  await helpers.validation.richText.removeNodeContentTypeValues('contentTypeId', 'fieldId', ['hyperlink']); // add at the end
-  await helpers.validation.richText.modifyNodeContentTypeValues('contentTypeId', 'fieldId', (existing) => {
-    const result = existing.filter((value) => !value.startsWith('heading-')); // filter out headings like 'heading-1'
-    result.push('quote'); // and add one
+  await helpers.validation.richText.addNodeContentTypeValues('contentTypeId', 'fieldId', 'embedded-entry-block', ['a-content-type']);
+  await helpers.validation.richText.removeNodeContentTypeValues('contentTypeId', 'fieldId', 'embedded-entry-inline', ['a-content-type']);
+  await helpers.validation.richText.modifyNodeContentTypeValues('contentTypeId', 'fieldId', 'entry-hyperlink', (existing) => {
+    const result = existing.filter((value) => value.startsWith('t-')); // filter out content types that not start with 't-'
+    result.push('t-article'); // and add one
     return result; // possible duplicate values are removed afterwards
   });
 
