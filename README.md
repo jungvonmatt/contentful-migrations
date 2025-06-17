@@ -30,7 +30,7 @@ We use [`@jungvonmatt/contentful-config`](https://github.com/jungvonmatt/content
 
 **Supported configuration locations (in order of priority):**
 - Configuration overrides passed via command line arguments
-- User-specified config file (via `--config-file` option)
+- User-specified config file (via `--config` option)
 - `migrations.config.{js,ts,mjs,cjs,mts,cts}`
 - `.config/migrations.{js,ts,mjs,cjs,mts,cts,json,jsonc,json5,yaml,yml,toml}`
 - `.migrationsrc.{js,ts,mjs,cjs,mts,cts,json,jsonc,json5,yaml,yml,toml}`
@@ -60,7 +60,7 @@ export default {
 }
 ```
 
-You can specify any config file path using the `--config-file <path/to/config>` command line argument. Multiple config files can be used for different environments or spaces in your project.
+You can specify any config file path using the `--config <path/to/config>` command line argument. Multiple config files can be used for different environments or spaces in your project.
 
 #### Configuration values
 
