@@ -26,11 +26,41 @@ This initializes migrations and stores the config values in the `package.json` o
 
 #### Configuration files
 
-The default configuration file name is `.migrationsrc`. But since we use [cosmiconfig](https://github.com/davidtheclark/cosmiconfig#cosmiconfig) you can also use the other supported config file formats and name patterns like `migrationsrc.json` or `migrations.config.js`.
+We use [`@jungvonmatt/contentful-config`](https://github.com/jungvonmatt/contentful-ssg/tree/main/packages/contentful-config) (built on [`@jungvonmatt/config-loader`](https://github.com/jungvonmatt/config-loader) and [`c12`](https://github.com/unjs/c12)) which provides extensive configuration loading capabilities from multiple sources.
 
-You can also use any config file path by adding the `-f <path/to/confg>` or `--config-file <path/to/config>` command line argument. The extensions `.json`, `.yaml`, `.yml`, `.js`, `.ts`, `.mjs`, or `.cjs` are supported.
+**Supported configuration locations (in order of priority):**
+- Configuration overrides passed via command line arguments
+- User-specified config file (via `--config-file` option)
+- `migrations.config.{js,ts,mjs,cjs,mts,cts}`
+- `.config/migrations.{js,ts,mjs,cjs,mts,cts,json,jsonc,json5,yaml,yml,toml}`
+- `.migrationsrc.{js,ts,mjs,cjs,mts,cts,json,jsonc,json5,yaml,yml,toml}`
+- `.migrationsrc`
+- `package.json` (in a `migrations` property)
+- Environment variables (with `CONTENTFUL_MIGRATIONS_CONFIG_*` prefix)
+- `.env` files (`.env.{NODE_ENV}`, `.env`)
+- Default configuration
 
-By specifying the config file path you can use multiple config files for different environments or spaces in your project.
+**Extending configurations:**
+You can extend configurations from other files or remote sources using the `extends` property:
+```js
+// migrations.config.js
+export default {
+  extends: ['./base.config.js', 'github:user/repo'],
+  // your config...
+}
+```
+
+**Environment-specific configuration:**
+```js
+// migrations.config.js
+export default {
+  spaceId: 'default-space',
+  $development: { spaceId: 'dev-space' },
+  $production: { spaceId: 'prod-space' }
+}
+```
+
+You can specify any config file path using the `--config-file <path/to/config>` command line argument. Multiple config files can be used for different environments or spaces in your project.
 
 #### Configuration values
 
