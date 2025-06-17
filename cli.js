@@ -66,15 +66,21 @@ program
   .description('Initialize contentful-migrations')
   .action(
     actionRunner(async (cmd) => {
-      const config = await getConfig(parseArgs(cmd || {}), [
-        'managementToken',
-        'spaceId',
-        'environmentId',
-        'storage',
-        'fieldId',
-        'migrationContentTypeId',
-        'directory',
-      ]);
+      const config = await getConfig(
+        parseArgs(cmd || {}),
+        [],
+        [
+          'managementToken',
+          'host',
+          'organizationId',
+          'spaceId',
+          'environmentId',
+          'storage',
+          'fieldId',
+          'migrationContentTypeId',
+          'directory',
+        ]
+      );
 
       const { managementToken, accessToken, environmentId, spaceId, ...rest } = config;
 
