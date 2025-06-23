@@ -207,7 +207,7 @@ program
   .description('Execute a single migration.')
   .action(
     actionRunner(async (file, options) => {
-      const config = await getConfig(parseArgs(cmd || {}), [
+      const config = await getConfig(parseArgs(options || {}), [
         'managementToken',
         'spaceId',
         'environmentId',
@@ -240,7 +240,7 @@ program
   .action(
     actionRunner(async (file, options) => {
       const { remove, add } = options;
-      const config = await getConfig(parseArgs(cmd || {}), [
+      const config = await getConfig(parseArgs(options || {}), [
         'managementToken',
         'spaceId',
         'environmentId',
