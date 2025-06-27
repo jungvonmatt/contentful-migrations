@@ -82,8 +82,6 @@ program
         ]
       );
 
-      const { managementToken, accessToken, environmentId, spaceId, ...rest } = config;
-
       if (config.storage === STORAGE_CONTENT) {
         await initializeContentModel(config);
         await migrateToContentStorage(config);
@@ -92,24 +90,35 @@ program
         await migrateToTagStorage(config);
       }
 
-      if (!process.env.CONTENTFUL_SPACE_ID) {
-        rest.spaceId = spaceId;
-      }
-
       const storeConfig = await confirm({ message: 'Do you want to store the configuration?' });
 
       if (storeConfig) {
+        // only store relevant config values without management token
+        // management token should not be stored inside the project
+        const { host, spaceId, environmentId, storage, fieldId, migrationContentTypeId, directory } = config;
+
+        const data = {
+          host,
+          spaceId,
+          environmentId,
+          directory,
+          storage,
+          ...(storage === STORAGE_CONTENT ? { migrationContentTypeId } : { fieldId }),
+        };
+
         // try to store in package.json
         const { pkgUp } = await import('pkg-up');
         const localPkg = await pkgUp();
         if (localPkg) {
           const packageJson = await fs.readJson(localPkg);
-          rest.directory = path.relative(path.dirname(localPkg), rest.directory);
-          packageJson.migrations = rest;
+          data.directory = path.relative(path.dirname(localPkg), data.directory);
+          packageJson.migrations = data;
           await fs.outputJson(localPkg, packageJson, { spaces: 2 });
         } else {
           // store in .migrationsrc if no package.json is available
-          await fs.outputJson(path.join(process.cwd(), '.migrationsrc'), rest, { spaces: 2 });
+          const cwd = cmd.cwd ? path.resolve(cmd.cwd) : process.cwd()
+          data.directory = path.relative(cwd, data.directory);
+          await fs.outputJson(path.join(cwd, '.migrationsrc.json'), data, { spaces: 2 });
         }
       }
     })
@@ -134,6 +143,7 @@ program
         'environmentId',
         'directory',
       ]);
+
       await fetchMigration({ ...config, contentType: cmd.contentType });
     })
   );
