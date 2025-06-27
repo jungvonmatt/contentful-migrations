@@ -116,7 +116,7 @@ program
           await fs.outputJson(localPkg, packageJson, { spaces: 2 });
         } else {
           // store in .migrationsrc if no package.json is available
-          const cwd = cmd.cwd ? path.resolve(cmd.cwd) : process.cwd()
+          const cwd = cmd.cwd ? path.resolve(cmd.cwd) : process.cwd();
           data.directory = path.relative(cwd, data.directory);
           await fs.outputJson(path.join(cwd, '.migrationsrc.json'), data, { spaces: 2 });
         }
