@@ -35,7 +35,7 @@
   ],
   "dependencies": {
     "@contentful/rich-text-plain-text-renderer": "^15.12.1",
-    "@jungvonmatt/contentful-config": "^3.0.5",
+    "@jungvonmatt/contentful-config": "^3.0.6",
     "array.prototype.flatmap": "^1.3.3",
     "ascii-tree": "^0.3.0",
     "cli-progress": "^3.11.2",
