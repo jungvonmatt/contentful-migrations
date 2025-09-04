@@ -16,8 +16,6 @@ const { createEnvironment, removeEnvironment, resetEnvironment } = require('./li
 const { getConfig, confirm, STORAGE_CONTENT, STORAGE_TAG } = require('./lib/config');
 const pkg = require('./package.json');
 
-require('dotenv').config();
-
 const parseArgs = (cmd) => {
   const { parent = {} } = cmd || {};
   const directory = cmd.path || parent.path;
