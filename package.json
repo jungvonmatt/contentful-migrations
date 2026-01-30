@@ -116,7 +116,7 @@
     "testResultsProcessor": "jest-sonar-reporter",
     "coverageDirectory": "<rootDir>/__coverage__/",
     "collectCoverageFrom": [
-      "<rootDir>/lib/*/**"
+      "<rootDir>/lib/**"
     ],
     "roots": [
       "<rootDir>/lib/"
