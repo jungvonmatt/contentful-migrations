@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Enable Corepack
         run: corepack enable
@@ -37,8 +39,8 @@ jobs:
         run: pnpm test
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        if: startsWith(matrix.os, 'ubuntu') && startsWith(matrix.node, '22')
+        uses: SonarSource/sonarqube-scan-action@v6
+        if: matrix.os == 'ubuntu-latest' && matrix.node == 22
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
