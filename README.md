@@ -1,6 +1,6 @@
 # JvM Contentful Migrations
 
-[![NPM Version][npm-image]][npm-url] [![Sonarcloud Status][sonarcloud-image]][sonarcloud-url]
+[![Build Status][ci-image]][ci-url] [![NPM Version][npm-image]][npm-url] [![Sonarcloud Status][sonarcloud-image]][sonarcloud-url]
 
 JvM Contentful Migrations offers additional functionality on top of the existing migration functionality of the [Contentful CLI](https://github.com/contentful/contentful-cli). It makes it easy and safe to deploy changes to your content model in a way that can be reviewed and tested before being deployed to production. With migrations you can do almost everything with your content and your content model. See the [official documentation](https://github.com/contentful/contentful-migration) for more information.
 
@@ -303,3 +303,5 @@ free to open up an issue and we can discuss it.
 [npm-image]: https://img.shields.io/npm/v/@jungvonmatt/contentful-migrations.svg
 [sonarcloud-url]: https://sonarcloud.io/dashboard?id=jungvonmatt_contentful-migrations
 [sonarcloud-image]: https://sonarcloud.io/api/project_badges/measure?project=jungvonmatt_contentful-migrations&metric=alert_status
+[ci-url]: https://github.com/jungvonmatt/contentful-migrations/actions?workflow=Tests
+[ci-image]: https://github.com/jungvonmatt/contentful-migrations/workflows/Tests/badge.svg
