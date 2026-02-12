@@ -15,10 +15,11 @@
     "migrations": "cli.js"
   },
   "scripts": {
-    "test": "jest --coverage && npm run lint",
+    "test": "jest --coverage && pnpm run lint",
     "lint": "eslint .  --ext .js,.ts,.tsx --ignore-path .gitignore",
-    "fix-lint": "npm run lint -- --fix"
+    "fix-lint": "pnpm run lint -- --fix"
   },
+  "packageManager": "pnpm@10.28.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jungvonmatt/contentful-migrations.git"

@@ -9,7 +9,14 @@ JvM Contentful Migrations offers additional functionality on top of the existing
 ### Install
 
 ```bash
+# pnpm
+pnpm add @jungvonmatt/contentful-migrations
+
+# npm
 npm i @jungvonmatt/contentful-migrations
+
+# yarn
+yarn add @jungvonmatt/contentful-migrations
 ```
 
 ### Initialize
