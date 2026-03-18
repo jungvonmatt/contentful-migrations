@@ -155,6 +155,7 @@ program
   .option('--host <host>', 'Management API host')
   .option('--config <path/to/config>', 'Config file path (disables auto detect)')
   .option('--cwd <directory>', 'Working directory. Defaults to process.cwd()')
+  .option('-n, --name <name>', 'Set a name for the migration')
   .description('Generate a new Contentful migration')
   .action(
     actionRunner(async (cmd) => {
@@ -164,7 +165,7 @@ program
         'environmentId',
         'directory',
       ]);
-      await createMigration(config);
+      await createMigration({ ...config, name: cmd.name });
     })
   );
 
