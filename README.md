@@ -36,6 +36,7 @@ This initializes migrations and stores the config values in the `package.json` o
 We use [`@jungvonmatt/contentful-config`](https://github.com/jungvonmatt/contentful-ssg/tree/main/packages/contentful-config) (built on [`@jungvonmatt/config-loader`](https://github.com/jungvonmatt/config-loader) and [`c12`](https://github.com/unjs/c12)) which provides extensive configuration loading capabilities from multiple sources.
 
 **Supported configuration locations (in order of priority):**
+
 - Configuration overrides passed via command line arguments
 - User-specified config file (via `--config` option)
 - `migrations.config.{js,ts,mjs,cjs,mts,cts}`
@@ -49,22 +50,24 @@ We use [`@jungvonmatt/contentful-config`](https://github.com/jungvonmatt/content
 
 **Extending configurations:**
 You can extend configurations from other files or remote sources using the `extends` property:
+
 ```js
 // migrations.config.js
 export default {
   extends: ['./base.config.js', 'github:user/repo'],
   // your config...
-}
+};
 ```
 
 **Environment-specific configuration:**
+
 ```js
 // migrations.config.js
 export default {
   spaceId: 'default-space',
   $development: { spaceId: 'dev-space' },
-  $production: { spaceId: 'prod-space' }
-}
+  $production: { spaceId: 'prod-space' },
+};
 ```
 
 You can specify any config file path using the `--config <path/to/config>` command line argument. Multiple config files can be used for different environments or spaces in your project.
@@ -276,14 +279,22 @@ module.exports = withHelpers(async (migration, context, helpers) => {
 
   // Add or remove embedded or linked content types for a rich text field without knowing all the allowed content types
   // The possible node types are 'entry-hyperlink', 'embedded-entry-block' and 'embedded-entry-inline'.
-  await helpers.validation.richText.addNodeContentTypeValues('contentTypeId', 'fieldId', 'embedded-entry-block', ['a-content-type']);
-  await helpers.validation.richText.removeNodeContentTypeValues('contentTypeId', 'fieldId', 'embedded-entry-inline', ['a-content-type']);
-  await helpers.validation.richText.modifyNodeContentTypeValues('contentTypeId', 'fieldId', 'entry-hyperlink', (existing) => {
-    const result = existing.filter((value) => value.startsWith('t-')); // filter out content types that not start with 't-'
-    result.push('t-article'); // and add one
-    return result; // possible duplicate values are removed afterwards
-  });
-
+  await helpers.validation.richText.addNodeContentTypeValues('contentTypeId', 'fieldId', 'embedded-entry-block', [
+    'a-content-type',
+  ]);
+  await helpers.validation.richText.removeNodeContentTypeValues('contentTypeId', 'fieldId', 'embedded-entry-inline', [
+    'a-content-type',
+  ]);
+  await helpers.validation.richText.modifyNodeContentTypeValues(
+    'contentTypeId',
+    'fieldId',
+    'entry-hyperlink',
+    (existing) => {
+      const result = existing.filter((value) => value.startsWith('t-')); // filter out content types that not start with 't-'
+      result.push('t-article'); // and add one
+      return result; // possible duplicate values are removed afterwards
+    },
+  );
 });
 ```
 
