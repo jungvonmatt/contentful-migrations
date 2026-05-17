@@ -4,6 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  axios: '>=1.15.2'
+  follow-redirects: '>=1.16.0'
+  uuid: '>=11.1.1'
+  tmp: '>=0.2.4'
+  '@tootallnate/once': '>=3.0.1'
+
 importers:
 
   .:
@@ -598,9 +605,9 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
-  '@tootallnate/once@1.1.2':
-    resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
-    engines: {node: '>= 6'}
+  '@tootallnate/once@3.0.1':
+    resolution: {integrity: sha512-VyMVKRrpHTT8PnotUeV8L/mDaMwD5DaAKCFLP73zAqAtvF0FCqky+Ki7BYbFCYQmqFyTe9316Ed5zS70QUR9eg==}
+    engines: {node: '>= 10'}
 
   '@tybys/wasm-util@0.10.2':
     resolution: {integrity: sha512-RoBvJ2X0wuKlWFIjrwffGw1IqZHKQqzIchKaadZZfnNpsAYp2mM0h36JtPCjNDAHGgYez/15uMBpfGwchhiMgg==}
@@ -800,8 +807,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios@1.15.0:
-    resolution: {integrity: sha512-wWyJDlAatxk30ZJer+GeCWS209sA42X+N5jU2jy6oHTp7ufw8uzUTVFBX9+wTfAlhiJXGS0Bq7X6efruWjuK9Q==}
+  axios@1.16.1:
+    resolution: {integrity: sha512-caYkukvroVPO8KrzuJEb50Hm07KwfBZPEC3VeFHTsqWHvKTsy54hjJz9BS/cdaypROE2rH6xvm9mHX4fgWkr3A==}
 
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
@@ -1347,8 +1354,8 @@ packages:
     resolution: {integrity: sha512-YyZM99iHrqLKjmt4LJDj58KI+fYyufRLBSYcqycxf//KpBk9FoewoGX0450m9nB44qrZnovzC2oeP5hUibxc/g==}
     engines: {node: '>=18'}
 
-  follow-redirects@1.15.11:
-    resolution: {integrity: sha512-deG2P0JfjrTxl50XGCDyfI97ZGVCxIpfKYmfyrQ54n5FO/0gfIES8C/Psl6kWVDolizcaaxZJnTS0QSMxvnsBQ==}
+  follow-redirects@1.16.0:
+    resolution: {integrity: sha512-y5rN/uOsadFT/JfYwhxRS5R7Qce+g3zG97+JrtFZlC9klX/W5hD7iiLzScI4nZqUS7DNUdhPgw4xI8W2LuXlUw==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -2009,10 +2016,6 @@ packages:
     resolution: {integrity: sha512-jd0cvB8qQ5uVt0lvCIexBaROw1KyKm5sbulg2fWOHjETisuCzWyt+eTZKEMs8v6HwzoGs8xik26jg7eCM6pS+A==}
     engines: {node: '>= 0.4.0'}
 
-  os-tmpdir@1.0.2:
-    resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
-    engines: {node: '>=0.10.0'}
-
   oxfmt@0.50.0:
     resolution: {integrity: sha512-owwjTnhfM5aCOJhYeqDvk7iM504OeYFZpdRU7cxx7xtZMo4uVpjlryTUon+Cf76CugsvnqA32e6rC73pr1hXaw==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -2511,9 +2514,9 @@ packages:
     resolution: {integrity: sha512-Bf+ILmBgretUrdJxzXM0SgXLZ3XfiaUuOj/IKQHuTXip+05Xn+uyEYdVg0kYDipTBcLrCVyUzAPz7QmArb0mmw==}
     engines: {node: '>=14.0.0'}
 
-  tmp@0.0.29:
-    resolution: {integrity: sha512-89PTqMWGDva+GqClOqBV9s3SMh7MA3Mq0pJUdAoHuF65YoE7O0LermaZkVfT5/Ngfo18H4eYiyG7zKOtnEbxsw==}
-    engines: {node: '>=0.4.0'}
+  tmp@0.2.5:
+    resolution: {integrity: sha512-voyz6MApa1rQGUxT3E+BK7/ROe8itEx7vD8/HEvt4xwXucvQ5G5oeEiHkmHZJuBO21RpOf+YYm9MOivj709jow==}
+    engines: {node: '>=14.14'}
 
   to-ast@1.0.0:
     resolution: {integrity: sha512-FZpqARevv2F9BQZAeOx4b8F1tp07qqITCevw5spzKMC7ewcsP4y42kQosjctkAoROtzMNGbmD5n9ZN+vWmSN/Q==}
@@ -2597,18 +2600,8 @@ packages:
   util@0.10.4:
     resolution: {integrity: sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==}
 
-  uuid@10.0.0:
-    resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
-    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-    hasBin: true
-
-  uuid@11.1.0:
-    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
-    hasBin: true
-
-  uuid@9.0.1:
-    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
-    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+  uuid@14.0.0:
+    resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
     hasBin: true
 
   validate-npm-package-license@3.0.4:
@@ -3013,6 +3006,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - magicast
+      - supports-color
 
   '@napi-rs/wasm-runtime@1.1.4(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)':
     dependencies:
@@ -3217,7 +3211,7 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@tootallnate/once@1.1.2':
+  '@tootallnate/once@3.0.1':
     optional: true
 
   '@tybys/wasm-util@0.10.2':
@@ -3403,13 +3397,15 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.15.0:
+  axios@1.16.1:
     dependencies:
-      follow-redirects: 1.15.11
+      follow-redirects: 1.16.0
       form-data: 4.0.5
+      https-proxy-agent: 5.0.1
       proxy-from-env: 2.1.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   base64-js@1.5.1: {}
 
@@ -3670,7 +3666,7 @@ snapshots:
       date-fns: 2.30.0
       figures: 3.2.0
       https-proxy-agent: 7.0.6
-      uuid: 11.1.0
+      uuid: 14.0.0
     transitivePeerDependencies:
       - supports-color
 
@@ -3680,7 +3676,7 @@ snapshots:
       figures: 3.2.0
       https-proxy-agent: 7.0.6
       lodash.clonedeep: 4.5.0
-      uuid: 9.0.1
+      uuid: 14.0.0
     transitivePeerDependencies:
       - supports-color
 
@@ -3739,7 +3735,7 @@ snapshots:
 
   contentful-export@8.0.1:
     dependencies:
-      axios: 1.15.0
+      axios: 1.16.1
       bfj: 9.1.3
       bluebird: 3.7.2
       cli-table3: 0.6.5
@@ -3806,28 +3802,30 @@ snapshots:
   contentful-management@11.76.0:
     dependencies:
       '@contentful/rich-text-types': 16.8.5
-      axios: 1.15.0
+      axios: 1.16.1
       contentful-sdk-core: 9.4.5
       fast-copy: 3.0.2
       globals: 15.15.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   contentful-management@12.5.0:
     dependencies:
       '@contentful/rich-text-types': 16.8.5
-      axios: 1.15.0
+      axios: 1.16.1
       contentful-sdk-core: 9.4.5
       fast-copy: 3.0.2
       globals: 15.15.0
       process: 0.11.10
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   contentful-migration@5.0.0(@types/node@25.6.0)(enquirer@2.4.1):
     dependencies:
       '@hapi/hoek': 11.0.7
-      axios: 1.15.0
+      axios: 1.16.1
       bluebird: 3.7.2
       callsites: 3.1.0
       cardinal: 2.1.1
@@ -3841,7 +3839,7 @@ snapshots:
       listr2: 3.14.0(enquirer@2.4.1)
       lodash: 4.18.1
       p-throttle: 4.1.1
-      uuid: 10.0.0
+      uuid: 14.0.0
       yargs: 15.4.1
     transitivePeerDependencies:
       - '@types/node'
@@ -3866,7 +3864,7 @@ snapshots:
     dependencies:
       '@contentful/content-source-maps': 0.11.44
       '@contentful/rich-text-types': 16.8.5
-      axios: 1.15.0
+      axios: 1.16.1
       contentful-resolve-response: 1.9.8
       contentful-sdk-core: 9.4.5
       json-stringify-safe: 5.0.1
@@ -3874,6 +3872,7 @@ snapshots:
       type-fest: 4.41.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   convert-source-map@2.0.0: {}
 
@@ -4005,7 +4004,7 @@ snapshots:
       es-errors: 1.3.0
       get-intrinsic: 1.3.0
       has-tostringtag: 1.0.2
-      hasown: 2.0.2
+      hasown: 2.0.3
 
   escalade@3.2.0: {}
 
@@ -4062,7 +4061,7 @@ snapshots:
     dependencies:
       extend: 3.0.2
       spawn-sync: 1.0.15
-      tmp: 0.0.29
+      tmp: 0.2.5
 
   fast-copy@3.0.2: {}
 
@@ -4111,7 +4110,7 @@ snapshots:
       path-exists: 5.0.0
       unicorn-magic: 0.1.0
 
-  follow-redirects@1.15.11: {}
+  follow-redirects@1.16.0: {}
 
   foreach@2.0.6: {}
 
@@ -4216,7 +4215,7 @@ snapshots:
 
   http-proxy-agent@4.0.1:
     dependencies:
-      '@tootallnate/once': 1.1.2
+      '@tootallnate/once': 3.0.1
       agent-base: 6.0.2
       debug: 4.4.3
     transitivePeerDependencies:
@@ -4797,8 +4796,6 @@ snapshots:
 
   os-shim@0.1.3: {}
 
-  os-tmpdir@1.0.2: {}
-
   oxfmt@0.50.0:
     dependencies:
       tinypool: 2.1.0
@@ -5327,9 +5324,7 @@ snapshots:
 
   tinyrainbow@3.1.0: {}
 
-  tmp@0.0.29:
-    dependencies:
-      os-tmpdir: 1.0.2
+  tmp@0.2.5: {}
 
   to-ast@1.0.0:
     dependencies:
@@ -5401,11 +5396,7 @@ snapshots:
     dependencies:
       inherits: 2.0.3
 
-  uuid@10.0.0: {}
-
-  uuid@11.1.0: {}
-
-  uuid@9.0.1: {}
+  uuid@14.0.0: {}
 
   validate-npm-package-license@3.0.4:
     dependencies:
