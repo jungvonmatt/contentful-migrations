@@ -21,7 +21,8 @@
     "index.d.ts",
     "index.js",
     "cli.js",
-    "lib"
+    "lib",
+    "!lib/**/*.test.js"
   ],
   "main": "index.js",
   "typings": "index.d.ts",
