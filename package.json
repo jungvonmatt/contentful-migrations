@@ -47,20 +47,20 @@
     "contentful-import": "^9.4.140",
     "contentful-management": "^11.75.0",
     "contentful-migration": "^4.32.0",
-    "deep-diff": "^1.0.2",
     "diff": "^9.0.0",
     "enquirer": "^2.4.1",
     "fs-extra": "^11.3.5",
     "globby": "^12.2.0",
     "markdown-table": "^3.0.4",
     "merge-options": "^3.0.4",
+    "microdiff": "^1.5.0",
     "mustache": "^4.2.0",
     "node-fetch": "^3.3.2",
     "node-object-hash": "^3.1.1",
     "oxfmt": "^0.50.0",
+    "package-up": "^5.0.0",
     "picocolors": "^1.1.1",
-    "pkg-up": "^4.0.0",
-    "read-pkg-up": "^9.1.0"
+    "read-package-up": "^12.0.0"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.6",

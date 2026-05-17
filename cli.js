@@ -105,8 +105,8 @@ program
         };
 
         // try to store in package.json
-        const { pkgUp } = await import('pkg-up');
-        const localPkg = await pkgUp();
+        const { packageUp } = await import('package-up');
+        const localPkg = await packageUp();
         if (localPkg) {
           const packageJson = await fs.readJson(localPkg);
           data.directory = path.relative(path.dirname(localPkg), data.directory);
