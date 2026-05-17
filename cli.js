@@ -77,7 +77,7 @@ program
           'fieldId',
           'migrationContentTypeId',
           'directory',
-        ]
+        ],
       );
 
       if (config.storage === STORAGE_CONTENT) {
@@ -119,7 +119,7 @@ program
           await fs.outputJson(path.join(cwd, '.migrationsrc.json'), data, { spaces: 2 });
         }
       }
-    })
+    }),
   );
 
 program
@@ -143,7 +143,7 @@ program
       ]);
 
       await fetchMigration({ ...config, contentType: cmd.contentType });
-    })
+    }),
   );
 
 program
@@ -165,7 +165,7 @@ program
         'directory',
       ]);
       await createMigration(config);
-    })
+    }),
   );
 
 program
@@ -200,7 +200,7 @@ program
       }
 
       await runMigrations(config);
-    }, false)
+    }, false),
   );
 
 program
@@ -231,7 +231,7 @@ program
         process.exit(1);
       }
       await executeMigration(path.resolve(file), config);
-    }, false)
+    }, false),
   );
 
 program
@@ -273,7 +273,7 @@ program
       } else if (add) {
         await versionAdd(file, config);
       }
-    }, true)
+    }, true),
   );
 
 program
@@ -291,7 +291,7 @@ program
   .action(
     actionRunner(async (environmentId, options) => {
       const { remove, create, reset } = options;
-      const config = await getConfig(parseArgs({ ...(options || {}), environmentId }), [
+      const config = await getConfig(parseArgs({ ...options, environmentId }), [
         'managementToken',
         'spaceId',
         'environmentId',
@@ -308,7 +308,7 @@ program
       if (reset) {
         return resetEnvironment(environmentId, config);
       }
-    }, true)
+    }, true),
   );
 
 program
@@ -327,7 +327,7 @@ program
     actionRunner(async (cmd) => {
       const config = await getConfig(parseArgs(cmd || {}), ['managementToken', 'spaceId', 'environmentId']);
       await createOfflineDocs(config);
-    }, true)
+    }, true),
   );
 
 program
@@ -355,7 +355,7 @@ program
         forceOverwrite: cmd.force || false,
         diffConflicts: cmd.diff || false,
       });
-    })
+    }),
   );
 
 program.parse(process.argv);

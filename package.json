@@ -2,38 +2,39 @@
   "name": "@jungvonmatt/contentful-migrations",
   "version": "6.2.6",
   "description": "Helper to handle migrations in contentful",
-  "main": "index.js",
+  "keywords": [
+    "content-type",
+    "contentful",
+    "migration"
+  ],
+  "license": "MIT",
+  "author": "Ben Zörb <benjamin.zoerb@jvm.de>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jungvonmatt/contentful-migrations.git"
+  },
+  "bin": {
+    "contentful-migrations": "cli.js",
+    "migrations": "cli.js"
+  },
   "files": [
     "index.d.ts",
     "index.js",
     "cli.js",
     "lib"
   ],
+  "main": "index.js",
   "typings": "index.d.ts",
-  "bin": {
-    "contentful-migrations": "cli.js",
-    "migrations": "cli.js"
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "test": "vitest run --coverage && pnpm run lint",
-    "lint": "eslint .  --ext .js,.ts,.tsx --ignore-path .gitignore",
-    "fix-lint": "pnpm run lint -- --fix"
+    "lint": "oxlint",
+    "fix-lint": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
-  "packageManager": "pnpm@10.28.0",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jungvonmatt/contentful-migrations.git"
-  },
-  "author": "Ben Zörb <benjamin.zoerb@jvm.de>",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18"
-  },
-  "keywords": [
-    "contentful",
-    "migration",
-    "content-type"
-  ],
   "dependencies": {
     "@contentful/rich-text-plain-text-renderer": "^17.2.1",
     "@jungvonmatt/contentful-config": "^4.1.2",
@@ -56,68 +57,33 @@
     "mustache": "^4.2.0",
     "node-fetch": "^3.3.2",
     "node-object-hash": "^2.3.10",
+    "oxfmt": "^0.50.0",
     "picocolors": "^1.1.1",
     "pkg-up": "^4.0.0",
-    "prettier": "^2.8.8",
     "read-pkg-up": "^9.1.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.28.6",
     "@vitest/coverage-v8": "^4.1.6",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.10.2",
-    "eslint-plugin-prettier": "^4.2.5",
     "husky": "^7.0.4",
     "lint-staged": "^12.5.0",
+    "oxlint": "^1.65.0",
     "vitest": "^4.1.6"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "printWidth": 120
-  },
-  "eslintConfig": {
-    "ignorePatterns": [
-      "**/*.d.ts"
-    ],
-    "plugins": [
-      "prettier"
-    ],
-    "rules": {
-      "prettier/prettier": "error"
-    },
-    "extends": [
-      "prettier"
-    ],
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "requireConfigFile": false,
-      "allowImportExportEverywhere": true,
-      "ecmaFeatures": {
-        "ecmaVersion": 2017,
-        "impliedStrict": true
-      }
-    },
-    "env": {
-      "node": true
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "prettier --write --ignore-path .gitignore",
-      "eslint --fix --ignore-path .gitignore"
-    ],
-    "*.md": [
-      "prettier --write"
-    ]
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "oxfmt",
+      "oxlint --fix"
+    ]
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.28.0",
   "migrations": {
     "storage": "content",
     "migrationContentTypeId": "contentful-migrations",
