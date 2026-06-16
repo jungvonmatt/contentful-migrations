@@ -1,6 +1,6 @@
 {
   "name": "@jungvonmatt/contentful-migrations",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Helper to handle migrations in contentful",
   "keywords": [
     "content-type",
