@@ -45,7 +45,7 @@
     "common-tags": "^1.8.2",
     "contentful-cli": "^4.0.14",
     "contentful-import": "^10.6.0",
-    "contentful-management": "^12.20.0",
+    "contentful-management": "^12.21.0",
     "contentful-migration": "^5.1.1",
     "diff": "^9.0.0",
     "enquirer": "^2.4.1",
@@ -65,9 +65,9 @@
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.12",
     "husky": "^9.1.7",
-    "lint-staged": "^17.6.0",
-    "oxlint": "^1.92.0",
-    "vite": "^8.3.6",
+    "lint-staged": "^17.6.1",
+    "oxlint": "^1.93.0",
+    "vite": "^8.3.8",
     "vitest": "^4.1.12"
   },
   "husky": {
